@@ -5,8 +5,9 @@
 <style>
 .cart_wrap {padding:100px;position: relative;}
 .layer_like {transition: top 0 ease;display: inline-block;position: relative;}
-.layer_like .cart {display: block; width: 120px; height:120px;margin: 0 auto;border-radius:50%;background: #fa63a0 url(cart_wh.png) center center no-repeat; border:2px solid #fa63a0;}
-.layer_like.active .cart {animation: bounceIn 1s}
+.layer_like .cart {display: block; width: 120px; height:120px;margin: 0 auto;border-radius:50%;background: #fa63a0;}
+.layer_like .cart i {display: block;width: 120px;height:120px;background:url(cart_wh.png) center center no-repeat;}
+.layer_like.active .cart i {animation: bounceIn 1s}
 .layer_like>i {position: absolute;left:50%;bottom:20%;margin-left: -5px;opacity:0;display: block;;}
 .layer_like.active >i {animation:htUp 2s linear infinite;}
 .layer_like>i:before {content:"";display: block; width: 18px; height:18px; background: url(heart.png)0 0 no-repeat;opacity:0.8}
@@ -62,7 +63,7 @@ $(function(){
         <i></i>
         <i></i>
         <i></i>
-        <a href="#" class="cart" title="cart"></a>
+        <a href="#" class="cart" title="cart"><i></i></a>
     </div>
     <button type="button" class="addCart">Add to cart</button>
 </div>
