@@ -1,0 +1,165 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw==" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js" integrity="sha512-h9kKZlwV1xrIcr2LwAPZhjlkx+x62mNwuQK5PAu9d3D+JXMNlGx8akZbqpXvp0vA54rz+DrqYVrzUGDMhwKmwQ==" crossorigin="anonymous"></script>
+<style>
+*, *:before, *:after {box-sizing: border-box;}
+p {font-weight: bold;border-left:3px solid #000;padding-left: 10px; line-height: 1;margin-bottom: 10px;}
+/* 카트 하트 뿅뿅 */
+.cart_wrap {padding:100px;position: relative;}
+.layer_like {transition: top 0 ease;display: inline-block;position: relative;}
+.layer_like .cart {display: block; width: 120px; height:120px;margin: 0 auto;border-radius:50%;background: #fa63a0;}
+.layer_like .cart i {display: block;width: 120px;height:120px;background:url(cart_wh.png) center center no-repeat;}
+.layer_like.active .cart i {animation: bounceIn 1s}
+.layer_like>i {position: absolute;left:50%;bottom:20%;margin-left: -5px;opacity:0;display: block;;}
+.layer_like.active >i {animation:htUp 2s linear infinite;}
+.layer_like>i:before {content:"";display: block; width: 18px; height:18px; background: url(heart.png)0 0 no-repeat;opacity:0.8}
+.layer_like.active>i:nth-child(odd):before {animation:heartSwing1 1.2s infinite}
+.layer_like.active>i:nth-child(even):before {animation:heartSwing2 1.2s infinite}
+.layer_like>i:nth-child(2){left:20%;animation-delay:0.2s;}
+.layer_like>i:nth-child(3){left:70%;animation-delay:0.4s;}
+.layer_like>i:nth-child(4){left:40%;animation-delay:0.6s;}
+.layer_like>i:nth-child(5){left:50%;animation-delay:0.8s;}
+.layer_like>i:nth-child(6){left:10%;animation-delay:1s;}
+.layer_like>i:nth-child(7){left:60%;animation-delay:1.2s;}
+.layer_like>i:nth-child(8){left:30%;animation-delay:1.4s;}
+.addCart {width: 100px; height:40px; text-align: center;border:0px solid #ccc; color: #000; font-weight: bold}
+/* svg checo box */
+.check_wrap {position: relative;height: 200px;}
+.check { width: 136px; height:136px; background: #e5e5e5;border-radius:50%;position: absolute;top:20px; left:20px; box-shadow:0px -4px 4px 0px rgba(255, 255, 255, 0.75), inset 0px 4px 4px 0px rgba(0, 0, 0, 0.08);cursor:pointer }
+.check:before {content:"";background: #fff;position: absolute;top:9%;left:9%;right:9%;bottom:9%;box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.08);border-radius:50%;}
+.check:after {content:"";position: absolute;border-radius:50%;top:0;left:0;right:0;bottom:0;border-color:#60b247;border-width:0;border-style: solid;}
+.check .check-icon {position: absolute;z-index: 3;top: 31%;left: 28%;width: 45%;fill: #e5e5e5;  }
+.check.active:after {transition:0.1s ease-out all;border-width:68px}
+.check.active .check-icon {fill:#fff;animation:bounceCk 0.2s;animation-delay: 0.08s;}
+
+@keyframes htUp {
+  0% {bottom:70%;opacity:0;transform:scale(0.2); }
+  20%,50% {opacity:1}
+  100% {bottom:140%;opacity: 0;transform:scale(1)}
+}
+@keyframes heartSwing1 {
+  0% {transform:rotate(30deg) translateX(-20%);}
+  50% {transform:rotate(-30deg) translateX(20%);}
+  100% {transform:rotate(30deg) translateX(-20%);}
+}
+@keyframes heartSwing2 {
+    0% {transform:rotate(-30deg) translateX(20%);}
+  50% {transform:rotate(30deg) translateX(-20%);}
+  100% {transform:rotate(-30deg) translateX(20%);}
+}
+@keyframes bounceCk {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.main {position: relative; background: #000;width: 300px;padding-top: 57px;}
+.main .notification {position: relative;width: 100px;height:100px;}
+.main .notification svg {width: 100px; height:100px;}
+.main .notification svg > path {fill:#FFFFFF}
+.main .notification--bell {animation: bell 2.2s linear infinite;transform-origin: 50% 0%;}
+.main .notification--bellClapper {animation: bellClapper 2.2s .1s linear infinite;}
+.main .notification--num { position: absolute;top: -10%;left: 50%;border-radius: 50%;width: 30px;height: 30px;background-color: #FF4C13;border: 4px solid #FF4C13;color: #FFFFFF;text-align: center;animation: notification 2.2s linear;font-size: 16px;}
+
+@keyframes bell {
+  0%, 25%, 75%, 100% {
+    transform: rotate( 0deg );
+  }
+  40% {
+    transform: rotate( 10deg );
+  }
+  45% {
+    transform: rotate( -10deg );
+  }
+  55% {
+    transform: rotate( 8deg );
+  }
+  60% {
+    transform: rotate( -8deg );
+  }
+}
+
+@keyframes bellClapper {
+  0%, 25%, 75%, 100% {
+    transform: translateX( 0 );
+  }
+  40% {
+    transform: translateX( -.15em );
+  }
+  45% {
+    transform: translateX( .15em );
+  }
+  55% {
+    transform: translateX( -.1em );
+  }
+  60% {
+    transform: translateX( .1em );
+  }
+}
+
+@keyframes notification {
+  0%, 25%, 75%, 100% {
+    opacity: 1;
+  }
+  30%, 70% {
+    opacity: 0;
+  }
+}
+</style>
+<script>
+$(function(){
+    $('.addCart').click(function(){
+        heartMotion();
+    })
+    function heartMotion(){
+        $('.layer_like').addClass('active');
+        setTimeout(function(){
+            $('.layer_like').removeClass('active');
+        },4000)
+    }
+    $('.check').on('click', function(){
+        $(this).toggleClass('active');
+    });
+})
+</script>
+</head>
+<body>
+<!-- cart 하트뿅뿅 -->
+<p>cart heart</p>
+<div class="cart_wrap">
+    <div class="layer_like">
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <a href="#" class="cart" title="cart"><i></i></a>
+    </div>
+    <button type="button" class="addCart">Add to cart</button>
+</div>
+<br>
+<p>svg checkbox</p>
+<div class="check_wrap">
+    <div class="check">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="61" height="52" viewBox="0 0 61 52" class="check-icon">
+            <path d="M56.560,-0.010 C37.498,10.892 26.831,26.198 20.617,33.101 C20.617,33.101 5.398,23.373 5.398,23.373 C5.398,23.373 0.010,29.051 0.010,29.051 C0.010,29.051 24.973,51.981 24.973,51.981 C29.501,41.166 42.502,21.583 60.003,6.565 C60.003,6.565 56.560,-0.010 56.560,-0.010 Z" id="path-1" class="cls-2" fill-rule="evenodd"/>
+        </svg>
+    </div>
+</div>
+<br>
+<p>svg alarm</p>
+<div class="main">
+    <div class="notification">
+      <svg viewbox="-10 0 35 35">
+        <path class="notification--bell" d="M14 12v1H0v-1l0.73-0.58c0.77-0.77 0.81-3.55 1.19-4.42 0.77-3.77 4.08-5 4.08-5 0-0.55 0.45-1 1-1s1 0.45 1 1c0 0 3.39 1.23 4.16 5 0.38 1.88 0.42 3.66 1.19 4.42l0.66 0.58z"></path> 
+        <path class="notification--bellClapper" d="M7 15.7c1.11 0 2-0.89 2-2H5c0 1.11 0.89 2 2 2z"></path>
+      </svg>
+      <span class="notification--num">5</span>
+    </div>
+</div>
+</body>
+</html>
