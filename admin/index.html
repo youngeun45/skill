@@ -1,14 +1,14 @@
 <html>
 <head>
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <style>
 *, *:before, *:after {box-sizing: border-box;}
 p {font-weight: bold;border-left:3px solid #000;padding-left: 10px; line-height: 1;margin-bottom: 10px;}
-
+.newClass {color: #f00;}
 </style>
 <script>
 $(function(){
@@ -29,12 +29,23 @@ $(function(){
             return false;
             //event.preventDefault();
         }
-
+        
     });
+    $( "#effect" ).click(function(){
+      $( "#effect" ).addClass( "newClass", 3000 );
+    })
+   
+    function callback(){
+      setTimeout(function() {
+        $( "#effect" ).removeClass( "newClass" );
+      }, 3000 );
+    }
 })
 </script>
 </head>
 <body>
+
+<div id="effect">하하</div>
 <p>select - search</p>
 <select class="js-example-basic-single" name="state" style="width:100%">
     <option value="one">one</option>

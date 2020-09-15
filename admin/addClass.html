@@ -1,0 +1,32 @@
+<html>
+<head>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<style>
+*, *:before, *:after {box-sizing: border-box;}
+.newClass {color: #f00;}
+</style>
+<script>
+$(function(){
+    $( ".btn" ).click(function(){
+      $( "#effect" ).addClass( "newClass", 3000 ,callback);
+    })
+   
+    function callback(){
+      setTimeout(function() {
+        $( "#effect" ).removeClass( "newClass" );
+      }, 3000 );
+    }
+})
+</script>
+</head>
+<body>
+<button class="btn">click!</button>
+<br>
+<div id="effect">하하</div>
+
+</body>
+</html>
