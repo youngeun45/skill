@@ -1,8 +1,10 @@
 <html>
 <head>
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js" integrity="sha512-h9kKZlwV1xrIcr2LwAPZhjlkx+x62mNwuQK5PAu9d3D+JXMNlGx8akZbqpXvp0vA54rz+DrqYVrzUGDMhwKmwQ==" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
 <style>
 *, *:before, *:after {box-sizing: border-box;}
 p {font-weight: bold;border-left:3px solid #000;padding-left: 10px; line-height: 1;margin-bottom: 10px;}
@@ -17,7 +19,18 @@ $(function(){
             placeholder: 'Select an option'
         });
     });
-    
+    var availableCity = ["서울","부산","대구","광주","울산"];
+    $("#city").autocomplete({
+        source: availableCity,
+        select: function(event, ui) {
+            console.log(ui.item);
+        },
+        focus: function(event, ui) {
+            return false;
+            //event.preventDefault();
+        }
+
+    });
 })
 </script>
 </head>
@@ -48,5 +61,11 @@ $(function(){
     <option value="three">three</option>
     </select>
   </label>
+  <br>
+  <p>자동완성기능</p>
+  <div class="ui-widget">
+    <label for="city">도시: </label>
+    <input id="city">
+  </div>
 </body>
 </html>
