@@ -8,7 +8,7 @@
 <style>
 *, *:before, *:after {box-sizing: border-box;}
 p {font-weight: bold;border-left:3px solid #000;padding-left: 10px; line-height: 1;margin-bottom: 10px;}
-.newClass {color: #f00;}
+.btn_select {width: 100px;height:40px;padding: 0 10px;border:1px solid #ccc;appearance: none;position:relative;background: url(arrow.jpg) 95% 50% no-repeat;border-radius:5px;color: #999;}
 </style>
 <script>
 $(function(){
@@ -44,8 +44,6 @@ $(function(){
 </script>
 </head>
 <body>
-
-<div id="effect">하하</div>
 <p>select - search</p>
 <select class="js-example-basic-single" name="state" style="width:100%">
     <option value="one">one</option>
@@ -78,5 +76,13 @@ $(function(){
     <label for="city">도시: </label>
     <input id="city">
   </div>
+  <br>
+  <p>select - button shape</p>
+  <select class="btn_select">
+    <option value="">HongKong</option>
+    <option value="">Hong</option>
+    <option value="">Kong</option>
+    <option value="">HK</option>
+  </select>
 </body>
 </html>
