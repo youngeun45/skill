@@ -1,0 +1,179 @@
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css" />
+
+	<!-- 'Nanum Gothic'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" />
+	<!-- 'Noto Sans KR'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/notosanskr.css" />
+	
+	<!--[if lt IE 9]>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+	<![endif]-->
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<style>
+	.wrap{padding:30px;}
+	.wrap .box{display:inline-block;width:100px;height:100px;margin:20px;border:1px solid #ddd;background:#eee;}
+	.box1 .bg{background:red;}
+	.box2 .bg{background:orange;}
+	.box3 .bg{background:yellow;}
+	.box4 .bg{background:green;}
+	.box5 .bg{background:blue;}
+	.box6 .bg{background:Indigo;}
+	.box7 .bg{background:purple;}
+	.circleWrap .box{border-radius:50%;overflow:hidden;}
+	.circleWrap .box .bg{border-radius:50%;}
+</style>
+<script>
+;(function($){
+	
+	$.fn.boxOverMove = function(opts){		
+		return this.each(function(){
+			var options = $.extend({}, $.fn.boxOverMove.defaults, opts || {});
+
+			var e = $(this);	
+
+			//초기세팅
+			e.find(options.box).each(function(index){
+				//세팅
+				if($(this).css('position') != 'relative')$(this).css('position','relative')
+				if($(this).css('overflow') != 'hidden')$(this).css('overflow','hidden');
+				if($(this).find(options.bg).css('position') != 'absolute'){
+					$(this).find(options.bg).css({
+						'position':'absolute',
+						'left':'100%',
+						'top':'100%',
+						'width':'100%',
+						'height':'100%'
+					})
+				}
+			});
+			
+			// 활성화
+			e.on("mouseenter",options.box,function(event){		
+				var idx = $(this).index();
+				pointWay("on",idx,event);
+				console.log(idx)
+			});
+			// 비활성화
+			e.on("mouseleave",options.box,function(event){
+				var idx = $(this).index();
+				pointWay("off",idx,event);
+				console.log(idx)
+			});
+
+			function pointWay(moving,nums,event){
+				e.find(options.box).each(function(index){
+					if(nums == index){
+						w = $(this).width();
+						h = $(this).height();
+						x = ( event.pageX - $(this).offset().left - ( w/2 )) * ( w > h ? ( h/w ) : 1 ),
+						y = ( event.pageY - $(this).offset().top  - ( h/2 )) * ( h > w ? ( w/h ) : 1 ),
+						direction = Math.round( ( ( ( Math.atan2(y,x) * (180 / Math.PI) ) + 180 ) / 90 ) + 3 )  % 4;
+
+						if(moving == "on"){
+							$(this).find(options.bg).show();
+							if(direction == 0) {
+								$(this).find(options.bg).css({"top":-h,"left":0});
+							} else if(direction == 1) {
+								$(this).find(options.bg).css({"top":0,"left":w});
+							} else if(direction == 2) {
+								$(this).find(options.bg).css({"top":h,"left":0});
+							} else {
+								$(this).find(options.bg).css({"top":0,"left":-w});
+							}
+							$(this).find(options.bg).stop().animate({top:0,left:0},options.speed,options.ease);
+						}else if(moving == "off"){
+							if(direction == 0) {
+								$(this).find(options.bg).stop().animate({top:-h,left:0},options.speed,options.ease,function(){$(this).parent().find(options.bg).hide();});
+							} else if(direction == 1) {
+								$(this).find(options.bg).stop().animate({top:0,left:w},options.speed,options.ease,function(){$(this).parent().find(options.bg).hide();});
+							} else if(direction == 2) {
+								$(this).find(options.bg).stop().animate({top:h,left:0},options.speed,options.ease,function(){$(this).parent().find(options.bg).hide();});
+							} else {
+								$(this).find(options.bg).stop().animate({top:0,left:-w},options.speed,options.ease,function(){$(this).parent().find(options.bg).hide();});
+							}
+						}
+					}
+				});
+			}
+		});
+	}
+
+	$.fn.boxOverMove.defaults = {
+		box : '.over-box',
+		bg : '.over-bg',
+		speed : 700,
+		ease : "easeOutExpo"
+	}
+}(jQuery));
+
+$(function(){
+	$('.rectWrap').boxOverMove()
+
+	$('.circleWrap').boxOverMove({
+		box : '.box',
+		bg : '.bg'
+	})
+})
+</script>
+</head>
+<body>
+	<div class="wrap rectWrap">
+		<div class="box box1 over-box">
+			<div class="bg over-bg"></div>
+		</div>
+		<div class="box box2 over-box">
+			<div class="bg over-bg"></div>
+		</div>
+		<div class="box box3 over-box">
+			<div class="bg over-bg"></div>
+		</div>
+		<div class="box box4 over-box">
+			<div class="bg over-bg"></div>
+		</div>
+		<div class="box box5 over-box">
+			<div class="bg over-bg"></div>
+		</div>
+		<div class="box box6 over-box">
+			<div class="bg over-bg"></div>
+		</div>
+		<div class="box box7 over-box">
+			<div class="bg over-bg"></div>
+		</div>
+	</div>
+
+	<div class="wrap circleWrap">
+		<div class="box box1">
+			<div class="bg"></div>
+		</div>
+		<div class="box box2">
+			<div class="bg"></div>
+		</div>
+		<div class="box box3">
+			<div class="bg"></div>
+		</div>
+		<div class="box box4">
+			<div class="bg"></div>
+		</div>
+		<div class="box box5">
+			<div class="bg"></div>
+		</div>
+		<div class="box box6">
+			<div class="bg"></div>
+		</div>
+		<div class="box box7">
+			<div class="bg"></div>
+		</div>
+	</div>
+</body>
+</html>

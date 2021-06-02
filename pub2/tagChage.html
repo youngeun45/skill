@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<!-- 'Nanum Gothic'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" />
+	<!-- 'Noto Sans KR'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/notosanskr.css" />
+	
+	<!--[if lt IE 9]>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+	<![endif]-->
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<style>
+.wrap{margin:15px;}
+.wrap:after{content:'';display:block;clear:both;}
+.box{display:block;height:100px;margin:10px;float:left;}
+.box a,.box span{display:block;width:100px;line-height:100px;background:#eee;text-align:center;color:inherit;text-decoration:none;}
+.box a{background:#ddd;}
+</style>
+</head>
+<body>
+	<div class="wrap">
+		<div class="box"><span>span</span></div>
+		<div class="box"><a href="#">a href="#"</a></div>
+		<div class="box"><a href="">a href=""</a></div>
+		<div class="box"><a>only <strong>a</strong> tag</a></div>
+	</div>
+<script>
+$(function(){
+	$('.box').each(function(){
+		var $a = $(this).children('a');
+		if($a.is('a')){ //a태그인지 확인
+			if($a.attr('href') == '' || $a.attr('href') == null){ //정상적인 href 속성값 확인
+				$a.replaceWith('<span>' + $a.html() +'</span>')
+			}
+		}
+	})
+})
+</script>
+</body>
+</html>

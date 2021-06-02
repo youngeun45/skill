@@ -1,0 +1,135 @@
+<!DOCTYPE html> 
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<title>ui select</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.min.css" />
+
+	<!-- 'Nanum Gothic'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" />
+	<!-- 'Noto Sans KR'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/notosanskr.css" />
+	
+	<!--[if lt IE 9]>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+	<![endif]-->
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<style>
+body{background:#ededed;font-family:'Open Sans', sans-serif;}
+.center{position:absolute;display:inline-block;top:50%;left:50%;transform:translate(-50%, -50%);text-align:center;}
+.center > div> div{float:left;margin:5px;}
+.center > p{clear:both;}
+
+/** Custom Select **/
+.ui-select-wrapper{position:relative;display:inline-block;user-select:none;}
+.ui-select{position:relative;display:inline-block;}
+.ui-select-trigger{position:relative;display:block;width:130px;padding:0 80px 0 20px;font-size:22px;font-weight:300;color:#fff;line-height:60px;background:#5c9cd8;border-radius:4px;box-sizing:inherit;border:0 none;text-decoration:none;}
+.ui-select-trigger:after{position:absolute;display:block;content:'';width:10px;height:10px;top:50%;right:25px;margin-top:-3px;border-bottom:1px solid #fff;border-right:1px solid #fff;transform:rotate(45deg) translateY(-50%);transition:all .4s ease-in-out;transform-origin:50% 0;}
+.ui-select.opened .ui-select-trigger:after{margin-top:3px;transform:rotate(-135deg) translateY(-50%);}
+.ui-select-options{position:absolute;display:block;top:100%;left:0;right:0;min-width:100%;margin:15px 0;border:1px solid #b5b5b5;border-radius:4px;box-sizing:border-box;box-shadow:0 2px 1px rgba(0,0,0,.07);background:#fff;transition:all .4s ease-in-out;
+opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-15px);list-style:none;padding:0;z-index:1;}
+.ui-select.opened .ui-select-options{opacity:1;visibility:visible;pointer-events:all;transform:translateY(0);}
+.ui-select-options:before{position:absolute;display:block;content:'';bottom:100%;right:25px;width:7px;height:7px;margin-bottom:-4px;border-top:1px solid #b5b5b5;border-left:1px solid #b5b5b5;background:#fff;transform:rotate(45deg);transition:all .4s ease-in-out;}
+.ui-select-option-hover:before{background:#f9f9f9;}
+.ui-select-option{position:relative;display:block;padding:0 22px;border-bottom:1px solid #b5b5b5;font-size:18px;font-weight:600;color:#b5b5b5;line-height:47px;transition:all .4s ease-in-out;text-decoration:none;}
+.ui-select-option:first-of-type{border-radius:4px 4px 0 0;}
+.ui-select-option:last-of-type{border-bottom:0;border-radius:0 0 4px 4px;}
+.ui-select-option:hover,
+.ui-select-option.selection{background:#f9f9f9;}
+</style>
+</head>
+<body>
+
+<div class="center">
+	<div>
+		<select name="" id="" class="ui-select" placeholder="담당브랜드">
+			<option value="mrpizza">mrpizza</option>
+			<option value="KFC">KFC</option>
+			<option value="BHC">BHC</option>
+		</select>
+
+		<select name="" id="" class="ui-select" placeholder="퍼블리셔">
+			<option value="안효주">안효주</option>
+			<option value="변상우">변상우</option>
+			<option value="김영은">김영은</option>
+		</select>
+	</div>
+  
+  <p><button class="btn_add">select 추가</button></p>
+</div>
+
+<script>
+//함수호출
+selectMake();
+selectMakeUI();
+
+//셀렉트 만들기
+function selectMake(){
+	$("select.ui-select").each(function(){
+		var classes = $(this).attr("class"),
+			id      = $(this).attr("id"),
+			name    = $(this).attr("name");
+		if($(this).is(':visible')){
+			var template  = '<div class="' + classes + '">';
+				template += '<a href="#" class="ui-select-trigger">' + $(this).attr("placeholder") + '</a>';
+				template += '<ul class="ui-select-options">';
+				$(this).find("option").each(function(){
+					template += '<li><a href="#" class="ui-select-option" data-value="' + $(this).attr("value") + '">' + $(this).html() + '</a></li>';
+				});
+				template += '</ul></div>';
+		  
+			$(this).wrap('<div class="ui-select-wrapper"></div>');
+			$(this).hide().after(template);
+		}
+	});
+}
+
+//셀렉트 UI
+function selectMakeUI(){
+	$(document).on("hover",".ui-select-option:first-of-type",function(){
+	  $(this).closest(".ui-select-options").addClass("ui-select-option-hover");
+	}, function(){
+	  $(this).closest(".ui-select-options").removeClass("ui-select-option-hover");
+	});
+	$(document).on("click",".ui-select-trigger", function(e){	  
+	  e.preventDefault();
+	  $(this).closest(".ui-select").toggleClass("opened");
+	  $('html').one('click',function(){
+		$(".ui-select").removeClass("opened");
+	  });
+	  event.stopPropagation();
+	});
+	$(document).on("click",".ui-select-option", function(e){
+	  e.preventDefault();
+	  var $val= $(this).data("value"),
+		  $select = $(this).closest(".ui-select-wrapper").find("select");
+	  
+	  //console.log(".ui-select-option : "+$val)
+	  $select.val($val);
+	  $(this).addClass("selection").parent().siblings().find(".ui-select-option").removeClass("selection");
+	  $(this).closest(".ui-select").removeClass("opened").find(".ui-select-trigger").text($(this).text());
+	  //console.log(".ui-select : "+$select.val())
+	});
+}
+
+$(function(){
+	//셀렉트추가
+	$('.btn_add').click(function(){
+		var select = '<select name="" id="" class="ui-select" placeholder="추가셀렉트">';
+			select += '<option value="선택1">선택1</option>';
+			select += '<option value="선택2">선택2</option>';
+			select += '<option value="선택3">선택3</option>';
+			select += '</select>';
+
+		$('.center > div').append(select);
+		selectMake();
+	})
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html> 
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css" />
+
+	<!-- 'Nanum Gothic'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" />
+	<!-- 'Noto Sans KR'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/notosanskr.css" />
+	
+	<!--[if lt IE 9]>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+	<![endif]-->
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	
+<style>
+#wrap{padding:20px;}
+.table{width:100%;border-collapse:collapse;border-spacing:0;}
+.table th, .table td{padding:10px;border:1px solid #ddd;}
+.table thead th{background:#2d3143;color:#fff;}
+.table .on th, .table .on td{background:#d5f7ff;}
+</style>
+</head>
+<body>
+	<div id="wrap">
+		<table class="table trClick">
+			<thead>
+				<tr>
+					<th scope="col">
+						<input type="checkbox" name="" id="" class="tbl-chk-all">
+					</th>
+					<th scope="col">제목</th>
+					<th scope="col">제목</th>
+					<th scope="col">제목</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><input type="checkbox" name="" id="" class="tbl-chk"></td>
+					<td>내용</td>
+					<td>내용</td>
+					<td>내용</td>
+				</tr>
+				<tr>
+					<td><input type="checkbox" name="" id="" class="tbl-chk"></td>
+					<td>내용</td>
+					<td>내용</td>
+					<td>내용</td>
+				</tr>
+				<tr>
+					<td><input type="checkbox" name="" id="" class="tbl-chk"></td>
+					<td>내용</td>
+					<td>내용</td>
+					<td>내용</td>
+				</tr>
+				<tr>
+					<td><input type="checkbox" name="" id="" class="tbl-chk"></td>
+					<td>내용</td>
+					<td>내용</td>
+					<td>내용</td>
+				</tr>
+				<tr>
+					<td><input type="checkbox" name="" id="" class="tbl-chk"></td>
+					<td>내용</td>
+					<td>내용</td>
+					<td>내용</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+<script>
+
+$(function(){
+	$('table').on('change','.tbl-chk-all',function(){
+		var $table = $(this).closest('table'),
+			$chk = $table.find('tbody .tbl-chk');
+
+	    if($(this).prop('checked')){
+	        $chk.prop('checked', true).closest('tr').addClass('on');
+	    }else{
+	        $chk.prop('checked', false).closest('tr').removeClass('on')
+	    }
+	});
+	$('table').on('change','.tbl-chk',function(){
+        var $table = $(this).closest('table'),
+        	$thChk = $table.find('.tbl-chk-all'),
+        	$tdChk = $table.find('.tbl-chk'),
+        	$length = $tdChk.length,
+        	$checked = $tdChk.filter(":checked").length;
+
+        if( $length == $checked){
+            $thChk.prop('checked', true);
+        }else{
+            $thChk.prop('checked', false);
+        }
+
+        if($(this).prop('checked')){
+           $(this).closest('tr').addClass('on')
+        }else{
+           $(this).closest('tr').removeClass('on')
+        }
+    });
+    
+	//trClick
+    $('.trClick').on('click','tbody tr',function(){
+    	var $chk = $(this).find('.tbl-chk');
+
+    	$(this).toggleClass('on');
+    	if($chk.length > 0){    		
+    		$chk.trigger('click');
+    	}
+    }).on('click','a, input, .button',function(e) {
+		e.stopPropagation();
+	});
+})
+	
+</script>
+</body>
+</html>

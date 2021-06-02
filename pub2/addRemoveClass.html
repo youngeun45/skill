@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<title>addRemoveClass</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css" />
+
+	<!-- 'Nanum Gothic'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" />
+	<!-- 'Noto Sans KR'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/notosanskr.css" />
+	
+	<!--[if lt IE 9]>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+	<![endif]-->
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<style>
+body{padding:0;margin:0;}
+ul{overflow:hidden;padding:0;margin:0;list-style:none}
+li{float:left;margin:10px;border:1px solid #ddd;width:50px;height:50px;}
+.on{background:red;}
+</style>
+<script>
+//addRemoveClass
+(function($){
+    $.fn.addRemoveClass = function(select,timeAdd,timeRemove){
+      var element = this;
+      var addIt = function(){
+           element.addClass(select);
+        };
+      var removeIt = function(){
+           element.removeClass(select);
+        };
+      setTimeout(function(){addIt();setTimeout(removeIt,timeRemove);},timeAdd);
+      return this;
+    };
+}(jQuery));
+
+
+//활용
+$(function(){
+	$('ul').each(function(){
+		var $delay = 500,
+			$list = $(this),
+			$li = $list.children('li'),
+			$length = $li.length,
+			$endTime = $length * $delay;
+
+		newOn();
+		function newOn(){
+			$li.each(function(){
+				var $idx = $(this).index(),
+					$stratTime = $idx * $delay;
+					//console.log($stratTime)
+				$(this).addRemoveClass('on',$stratTime,$delay)
+			})
+			setTimeout(newOn,$endTime);
+		}
+	});
+})
+</script>
+</head>
+<body>
+  <ul>
+  	<li></li>
+	<li></li>
+	<li></li>
+  </ul>
+  <ul>
+  	<li></li>
+  	<li></li>
+  </ul>
+  <ul>
+  	<li></li>
+  	<li></li>
+  	<li></li>
+  	<li></li>
+  	<li></li>
+	<li></li>
+  </ul>
+</body>
+</html>

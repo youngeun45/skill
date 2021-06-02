@@ -1,0 +1,284 @@
+<!DOCTYPE html> 
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css" />
+
+	<!-- 'Nanum Gothic'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" />
+	<!-- 'Noto Sans KR'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/notosanskr.css" />
+	
+	<!--[if lt IE 9]>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+	<![endif]-->
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+	<!-- Adds "Raleway" Google Font -->
+	<link href='https://fonts.googleapis.com/css?family=Dosis' rel='stylesheet' type='text/css'>
+	<!-- Adds Weather Icons CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.5/css/weather-icons.min.css">
+<style>
+body{font-family:'Dosis', sans-serif;background:#728EB2;}
+a{color:inherit;text-decoration:inherit;}
+.container{padding:0px 230px 0px 230px;text-align:center;}
+.row{color:#ffffff;background-color:#fff;background-color:rgba(200, 200, 200, 0.5);}
+#temperature{font-size:120px;}
+#icon{font-size:100px;background-color:red;}
+#data{padding:37px 0px 29px 0px;font-size:25px;}
+#temperature:nth-child(1){padding:0px 9px 0px 0px;font-size:90px !important;}
+#temperature i{font-size:70px !important;}
+#location i{padding:0px 11px 0px 0px;}
+#wind i{padding:0px 5px 0px 0px;}
+#weather i{padding:0px 8px 0px 0px;}
+.text-center{text-align:center;}
+#map-canvas{height:500px;color: #000;}
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+	  <h1><a href="//openweathermap.org" target="_blank">openweathermap</a></h1>
+      <div id="temperature"></div>
+	  <div id="data">
+		<div id="location">로딩중...</div>
+		  <!-- country + city -->
+		<div id="wind">로딩중...</div>
+		<div id="weather">로딩중...</div>
+	  </div>
+	  <br>
+	  <div id="map-canvas"></div>
+    </div>
+  </div>  
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script>
+$("document").ready(function(){
+  getData();
+  setInterval(function(){
+	//getData();
+  },6000)
+});
+
+// API Call to get location data based on user's IP address
+function getData(){
+
+  // Using ipinfo.io API
+  var baseURL = "http://ipinfo.io";
+  var request = "/json";
+
+  // Use jQuery AJAX method to request JSON from server
+  $.ajax({
+    url:baseURL + request,
+    dataType:"jsonp",
+
+    // If we receive a reply from server
+    success:function(response){
+			console.log(response.city);
+		if(response.country == 'KR'){
+			response.country = '대한민국'
+		}
+	  $("#location").text(""); // Clear location DIV Field
+      $("#location").append("<i></i>"); // Add glyphicon for location field
+      $("#location i").addClass("glyphicon glyphicon-globe");
+      $("#location").append(response.city + ", " + response.country); // Extract data from JSON string & input location data  
+      var locationData = response.loc.split(","); // Split loc into Longitude & Latitude
+      getWeatherInfo(locationData[0], locationData[1]); // Pass result into gerWeatherInfo()
+
+    },
+    // If we FAIL to receive a reply from server
+    error:function(xhr, status, error){
+      $("#location").text("Unable to obtain IP Address"); // Report error message & terminate script                
+      $("#wind").text("");
+      $("#weather").text("");
+      return
+    }
+  });
+}
+
+// API Call to get location data based on user's location coordinates
+function getWeatherInfo(longitude, latitude){	
+  console.log(longitude, latitude)
+  // Using openweathermap API
+  var baseURL = "http://api.openweathermap.org/data/2.5";
+  //var request = "/weather?lat=" + longitude + "&lon=" + latitude;
+  var request = "/weather?lat=" + longitude + "&lon=" + latitude;
+  var API_Key = "&APPID=89fb8a243f9c6b021a9483e72bea6246";
+
+  // Use jQuery AJAX method to request JSON from server
+  $.ajax({
+    url:baseURL + request + API_Key,
+    dataType:"jsonp",
+
+    // If we receive a reply from server
+    success:function(response){
+      $("#temperature").text(""); // Clear temperature DIV Field
+      $("#temperature").append("<i></i>"); // Add weatherIcon for temperature field
+      $("#temperature i").addClass("wi wi-thermometer");
+      $("#temperature").append(convertTemperature(response.main.temp, "C")); // Extract data from JSON string, convert it & input temp data  
+      $("#temperature").append("<i></i>"); // Add weatherIcon for temperature field (units)
+      $("#temperature i").addClass("wi wi-celsius");
+
+      $("#wind").text(""); // Clear wind DIV Field
+      $("#wind").append("<i></i>"); // Add weatherIcon for wind field
+      $("#wind i").addClass("wi wi-strong-wind");
+      $("#wind").append(getCardinalDirection(response.wind.deg) + " " + (response.wind.speed * 3.6).toFixed(1) + "km/h"); // Extract data from JSON string, convert it & input wind data 
+
+      changeWeatherIcon(response.weather[0].main); // Change weatherIcon for weather field
+
+	  var $description = response.weather[0].description
+		if($description == 'clear sky'){
+			$description = '맑음';
+		}else if($description == 'few clouds'){
+			$description = '구름조금';
+		}else if($description == 'scattered clouds'){
+			$description = '구름';
+		}else if($description == 'broken clouds'){
+			$description = '구름많음';
+		}else if($description == 'shower rain'){
+			$description = '소나기';
+		}else if($description == 'rain'){
+			$description = '비';
+		}else if($description == 'thunderstorm'){
+			$description = '천둥번개';
+		}else if($description == 'snow'){
+			$description = '눈';
+		}else if($description == 'mist'){
+			$description = '안개';
+		}
+      $("#weather").append(titleCase($description)); // Extract data from JSON string, convert it & input weather description
+
+
+	  function initialize() {
+        var mapLocation = new google.maps.LatLng(longitude, latitude); // 지도에서 가운데로 위치할 위도와 경도
+        var markLocation = new google.maps.LatLng(longitude, latitude); // 마커가 위치할 위도와 경도
+         
+        var mapOptions = {
+          center: mapLocation, // 지도에서 가운데로 위치할 위도와 경도(변수)
+          zoom: 16, // 지도 zoom단계
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("map-canvas"), // id: map-canvas, body에 있는 div태그의 id와 같아야 함
+            mapOptions);
+         
+        var size_x = 60; // 마커로 사용할 이미지의 가로 크기
+        var size_y = 60; // 마커로 사용할 이미지의 세로 크기
+         
+        // 마커로 사용할 이미지 주소
+        var image = new google.maps.MarkerImage( 'http://www.larva.re.kr/home/img/boximage3.png',
+					new google.maps.Size(size_x, size_y),
+					'',
+					'',
+					new google.maps.Size(size_x, size_y));
+         
+        var marker = new google.maps.Marker({
+               position: markLocation, // 마커가 위치할 위도와 경도(변수)
+               map: map,
+               icon: image, // 마커로 사용할 이미지(변수)
+//             info: '말풍선 안에 들어갈 내용',
+               title: '날씨 기준 위치' // 마커에 마우스 포인트를 갖다댔을 때 뜨는 타이틀
+        });         
+        var content = "날씨 기준 위치입니다."; // 말풍선 안에 들어갈 내용
+         
+        // 마커를 클릭했을 때의 이벤트. 말풍선 뿅~
+        var infowindow = new google.maps.InfoWindow({ content: content}); 
+        google.maps.event.addListener(marker, "click", function() {
+            infowindow.open(map,marker);
+        });
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+    },
+    // If we FAIL to receive a reply from server
+    error:function(xhr, status, error){
+      $("#wind").text("Fail to retrieve server data"); // Replace fields with error message
+      $("#weather").text("");
+    }
+  });
+}
+
+// Converts the raw temperature data extracted from JSON API response into appropriate units
+// "C" = Celsius, "F" = Fahrenheit, "K" = Kelvin
+function convertTemperature(tempRaw, unit){
+  if (unit == "C")
+    return (tempRaw - 273.15).toFixed(1).toString();
+  else if (unit == "F")
+    return ((tempRaw - 273.15) * 9 / 5 + 32).toFixed(1).toString() + "°F";
+  else
+    return tempRaw.toFixed(1).toString() + "K";
+}
+
+// Obtained from:https://gist.github.com/basarat/4670200
+// Given "0-360" returns the nearest cardinal direction "N/NE/E/SE/S/SW/W/NW/N" 
+function getCardinalDirection(angle){
+
+  var directions = 8;
+  var degree = 360 / directions;
+  angle = angle + degree / 2;
+
+  if (angle >= 0 * degree && angle < 1 * degree)
+    return "북풍";
+  if (angle >= 1 * degree && angle < 2 * degree)
+    return "북동풍";
+  if (angle >= 2 * degree && angle < 3 * degree)
+    return "동풍";
+  if (angle >= 3 * degree && angle < 4 * degree)
+    return "남동풍";
+  if (angle >= 4 * degree && angle < 5 * degree)
+    return "남풍";
+  if (angle >= 5 * degree && angle < 6 * degree)
+    return "남서풍";
+  if (angle >= 6 * degree && angle < 7 * degree)
+    return "서풍";
+  if (angle >= 7 * degree && angle < 8 * degree)
+    return "북서풍";
+}
+
+// Changes the weatherIcon in the weather field depending on the weatherType extracted from the JSON string
+function changeWeatherIcon(weatherType){
+
+  weatherType = weatherType.toLowerCase();
+  $("#weather").text("");
+  $("#weather").append("<i></i>");
+
+  if (weatherType.indexOf("clouds") != -1){
+    $("#weather i").addClass("wi wi-cloudy");
+  } else if (weatherType.indexOf("rain") != -1){
+    $("#weather i").addClass("wi wi-rain");
+  } else if (weatherType.indexOf("thunderstorm") != -1){
+    $("#weather i").addClass("wi wi-thunderstorm");
+  } else if (weatherType.indexOf("snow") != -1){
+    $("#weather i").addClass("wi wi-snow");
+  } else if (weatherType.indexOf("mist") != -1){
+    $("#weather i").addClass("wi wi-smoke");
+  } else{
+    $("#weather i").addClass("wi wi-day-sunny");
+  }
+
+}
+
+// Changes 1st Char of each word (from input string) into Upper Case
+function titleCase(str){
+
+  var array = str.split(" ");
+
+  for (var i = 0; i < array.length; i++){
+
+    var temp_array = array[i].split(''); // "ab" => "a","b"
+    temp_array[0] = temp_array[0].toUpperCase(); // "a","b" => "A","b"
+
+    for (var j = 1; j < temp_array.length; j++)
+      temp_array[j] = temp_array[j].toLowerCase(); // "a","b" => "A","b"
+
+    array[i] = temp_array.join(''); // "A","b" => "Ab"
+  }
+
+  return array.join(' ');
+}
+</script>
+</body>
+</html>

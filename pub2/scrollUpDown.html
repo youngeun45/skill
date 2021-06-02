@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<!-- 'Nanum Gothic'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" />
+	<!-- 'Noto Sans KR'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/notosanskr.css" />
+	
+	<!--[if lt IE 9]>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+	<![endif]-->
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<style>
+#wrap{min-width:320px;background:#eaeaea;}
+#header{position:fixed;left:0;top:0;right:0;background:#000;z-index:1;transition:top 0.3s;}
+.ui-hide #header{top:-45px;}
+#header h1{color:#fff;text-align:center;font-size:1em;}
+#container{padding-top:45px;}
+.h100{position:relative;height:100px;}
+.h100:before{content:'';display:block;position:absolute;top:0;bottom:0;left:50%;width:1px;background:#000;}
+.h100:after{content:'';display:block;position:absolute;bottom:0;left:50%;margin-left:-25px;width:50px;height:1px;background:#000;}
+.navi{position:fixed;bottom:20px;left:50%;width:230px;text-align:center;transform:translateX(-50%) scale(1);transition:all 0.3s;}
+.ui-hide .navi{transform:translateX(-50%) scale(0);opacity:0;}
+.navi a{display:inline-block;width:50px;line-height:50px;margin:0 10px;background:#fff;border-radius:50%;color:#222;text-align:center;font-size:1.25em;box-shadow:0 0 10px #999;}
+.txt{position:fixed;left:20px;bottom:50%;}
+</style>
+</head>
+<body> 
+<div id="wrap">
+	<div id="header">
+		<h1>상단 헤더</h1>
+	</div>
+	<div id="container">
+		<div class="h100"></div>
+		<div class="h100"></div>
+		<div class="h100"></div>
+		<div class="h100"></div>
+		<div class="h100"></div>
+		<div class="h100"></div>
+		<div class="h100"></div>
+		<div class="h100"></div>
+		<div class="h100"></div>
+		<div class="h100"></div>
+		<div class="h100"></div>
+		<p class="txt"></p>
+		<div class="navi">
+			<a href="#"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
+			<a href="#"><i class="fa fa-bars" aria-hidden="true"></i></a>
+			<a href="#"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+		</div>
+	</div>
+</div>
+
+<script>
+$(function(){
+	$(window).scroll(function(){
+		var $func = scrollUpDown(this,300),
+			$upDown = $func[0], //방향구하기
+			$distance = $func[1]; //스크롤 거리구하기
+
+		//console.log($upDown,$distance)
+		if($upDown == 'down'){
+			$('body').addClass('ui-hide');
+		}else{
+			$('body').removeClass('ui-hide');
+		}
+
+		$('.txt').text('스크롤 거리 : '+$distance);
+	});
+
+	$(window).scrollEnd(function(){
+		//console.log('scrollEnd')
+	},500);
+})
+
+
+//scrollUpDown
+var $prevScrollPos = 0,$scrollDirection;
+function scrollUpDown(tar,time){
+	var $this = $(tar),
+		$nowScrollPos = $this.scrollTop(),
+		$distance = $prevScrollPos-$nowScrollPos;
+		
+	if ($nowScrollPos > $prevScrollPos) {
+		//Scrolling Down
+		$scrollDirection = 'down';
+	} else {
+	   //Scrolling Up
+	   $scrollDirection = 'up';
+	}
+
+    if ($this.data('scrollTime')) {
+      clearTimeout($this.data('scrollTime'));
+    }
+    $this.data('scrollTime', setTimeout(function(){
+		$prevScrollPos = $nowScrollPos;
+	},time));
+	
+	//console.log($prevScrollPos,$nowScrollPos,$scrollDirection,$distance)
+	return [$scrollDirection,$distance];
+}
+
+//scrollEnd
+$.fn.scrollEnd = function(callback, timeout) {          
+  $(this).scroll(function(){
+    var $this = $(this);
+    if ($this.data('scrollTimeout')) {
+      clearTimeout($this.data('scrollTimeout'));
+    }
+    $this.data('scrollTimeout', setTimeout(callback,timeout));
+  });
+};
+</script>
+</body>
+</html>

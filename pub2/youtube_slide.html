@@ -1,0 +1,182 @@
+<!DOCTYPE html> 
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css" />
+
+	<!-- 'Nanum Gothic'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" />
+	<!-- 'Noto Sans KR'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/notosanskr.css" />
+	
+	<!--[if lt IE 9]>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+	<![endif]-->
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.1.2/jquery.bxslider.css">
+<style>
+ul,li{padding:0;margin:0;list-style:none;}
+.videoWrap{width:864px;margin: 0 auto;}
+.videoWrap ul{overflow:hidden;}
+.bx-wrapper .bx-pager.bx-default-pager a.active{background:#dd0000;}
+</style>
+</head>
+<body>
+<div class="videoTabWrap">
+	<div class="videoWrap">
+	  <ul class="videoList">
+		<li>
+		  <div class="videoBox">
+			<div id="tourVideo">
+			  <iframe allowfullscreen="" width="864" height="486" frameborder="0"></iframe>
+			</div>
+		  </div>
+		</li>
+		<li>
+		  <div class="videoBox">
+			<div id="shoppingVideo">
+			  <iframe allowfullscreen="" width="864" height="486" frameborder="0"></iframe>
+			</div>
+		  </div>
+		</li>
+		<li>
+		  <div class="videoBox">
+			<div id="bookVideo">
+			  <iframe allowfullscreen="" width="864" height="486" frameborder="0"></iframe>
+			</div>
+		  </div>
+		</li>
+		<li>
+		  <div class="videoBox">
+			<div id="ticketVideo">
+			  <iframe allowfullscreen="" width="864" height="486" frameborder="0"></iframe>
+			</div>
+		  </div>
+		</li>
+	  </ul>
+	</div>
+	<i class="tourGodIcon"></i>
+	<i class="shoppingGodIcon"></i>
+	<i class="bookGodIcon"></i>
+	<i class="ticketGodIcon"></i>
+</div>
+
+<script src="http://www.youtube.com/iframe_api"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.1.2/jquery.bxslider.min.js"></script>
+<script>
+var tp, sp, bp, ep,
+	tourGod = $('.tourGodIcon'),
+	shoppingGod = $('.shoppingGodIcon'),
+	bookGod = $('.bookGodIcon'),
+	ticketGod = $('.ticketGodIcon'),
+	speed = 500,
+	videoMeta = {
+		'tour': 'f30Q-VUvSmU',
+		'shopping': '3I9RCY_YZIE',
+		'book': 'aQoAk7zAP9M',
+		'ticket': 'lQubzZaXBaA'
+	},
+	videoSize = {
+		'h': '486',
+		'w': '864'
+	};
+
+var changeToPlay = function(s, o, n){
+    switch (o){
+      case 0:
+        tp.stopVideo();
+        break;
+      case 1:
+        sp.stopVideo();
+        break;
+      case 2:
+        bp.stopVideo();
+        break;
+      case 3:
+        ep.stopVideo();
+        break;
+    } switch (n){
+      case 0:
+        tourGod.animate({'opacity': '1'}, speed).siblings('i').animate({'opacity': '0'}, speed);
+        tp.playVideo();		
+        break;
+      case 1:
+        shoppingGod.animate({'opacity': '1'}, speed).siblings('i').animate({'opacity': '0'}, speed);;
+        sp.playVideo();
+        break;
+      case 2:
+        bookGod.animate({'opacity': '1'}, speed).siblings('i').animate({'opacity': '0'}, speed);;
+        bp.playVideo();
+        break;
+      case 3:
+        ticketGod.animate({'opacity': '1'}, speed).siblings('i').animate({'opacity': '0'}, speed);;
+        ep.playVideo();
+        break;
+    }
+};
+var videoSlider = $('.videoList').bxSlider({
+    slideWidth: 864,
+    responsive: false,
+    infiniteLoop: false,
+    onSlideAfter: changeToPlay,
+    controls: true
+});
+var videoEndEvent = function(e){
+    if (e.data === 0){
+      if (e.target.a.id === 'ticketVideo'){
+        //videoSlider.goToSlide(0);  //마지막 재생후 처음으로
+        e.target.stopVideo(); //마지막 재생후 정지
+      }else{
+        videoSlider.goToNextSlide();
+      }
+    }
+};
+
+function onYouTubeIframeAPIReady(){
+    tp = new YT.Player('tourVideo',{
+      height: videoSize.h,
+      width: videoSize.w,
+      videoId: videoMeta.tour,
+      events:{
+        'onReady': function(e){
+          e.target.playVideo();
+		  $('.bx-loading').animate({'opacity': '0','z-index':'-1'}, speed);
+        },
+		'onStateChange': videoEndEvent
+      }
+    });
+    sp = new YT.Player('shoppingVideo',{
+      height: videoSize.h,
+      width: videoSize.w,
+      videoId: videoMeta.shopping,
+      events:{
+        'onStateChange': videoEndEvent
+      }
+    });
+    bp = new YT.Player('bookVideo',{
+      height: videoSize.h,
+      width: videoSize.w,
+      videoId: videoMeta.book,
+      events:{
+        'onStateChange': videoEndEvent
+      }
+    });
+    ep = new YT.Player('ticketVideo',{
+      height: videoSize.h,
+      width: videoSize.w,
+      videoId: videoMeta.ticket,
+      events:{
+        'onStateChange': videoEndEvent
+      }
+    });
+}
+</script>
+</body>
+</html>

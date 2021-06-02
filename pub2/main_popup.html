@@ -1,0 +1,187 @@
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css" />
+
+	<!-- 'Nanum Gothic'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" />
+	<!-- 'Noto Sans KR'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/notosanskr.css" />
+	
+	<!--[if lt IE 9]>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+	<![endif]-->
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+
+<style>
+html,body{height:100%;}
+#wrap{position:relative;height:100%;}
+#header{position:absolute;left:0;top:0;width:300px;height:100%;background:#aaa;z-index:1;}
+#container{min-height:100%;margin-left:300px;position:relative;background:#fafafa;}
+
+.pop_main{position:absolute;left:0;top:0px;z-index:1;border:1px solid #ddd;background:#fff;display:none;transition:left 0.5s ease,top 0.5s ease;}
+.pop_main h1{font-size:1em;text-align:center;padding:0;}
+.pop_main img{max-width:100%;vertical-align:middle;}
+.pop_main > p{padding:10px;font-size:11px;overflow:hidden;margin:0;background:#ddd;}
+.pop_main > p input{margin:0;padding:0;margin-right:5px;vertical-align:middle;}
+.pop_main > p a{float:right;color:#222;}
+
+@media only screen and (max-width: 760px){
+	#wrap{height:auto;}
+	#header{position:fixed;width:100%;height:50px;}
+	#container{margin-left:0;margin-top:50px;min-height:500px;}
+	.pop_main{left:50% !important;transform:translateX(-50%);max-width:90%;}
+}
+</style>
+<script>
+//쿠키 셋팅
+var cookiedata = document.cookie;
+function setCookie (name,value,expiredays){
+  var exdate = new Date();
+  exdate.setDate(exdate.getDate()+expiredays);
+  
+  var cookie = null;
+  cookie = document.cookie;
+  cookie = name+"="+escape(value)+ "; path=/" + ((expiredays==null)?"":";expires="+exdate.toGMTString());
+  //cookie.Path = "/";
+  document.cookie = cookie;
+}
+
+$(function(){
+	mainPopup();
+})
+
+function mainPopup(){
+	var $class = '.pop_main'
+		$speed = 500,
+		$popList=[],
+		$wrap = $($class);
+
+	if($wrap.length > 0){
+		$wrap.each(function(){
+			var $this = $(this),
+				$id = $this.attr('id');
+			
+			$popList.push($id);
+		})
+	}
+
+	$wrap.find('.pop_close').click(function(e){
+		e.preventDefault();
+		var $parent = $(this).closest($class),
+			$id = $parent.attr('id'),
+			$chk = $parent.find('.today_chk');
+		$(this).closest($class).fadeOut($speed).data('close','y');
+		$popList.splice($popList.indexOf($id),1);
+		mainPopInit();
+		if($chk .is(':checked')){
+		   setCookie( $id, 'done' , 1 );
+		}
+	})
+
+	$(window).on('load resize',function(){
+		mainPopInit();
+	})
+	function mainPopInit(){
+		console.log($popList)
+		var $left = 0, $top = 0, 
+			$popup,
+			$outerWidth = 0, $outerHeight = 0,$prevWidth = 0,
+			$winW= $(window).width(),
+			$headW= $('#header').width(),
+			$conW = $('#container').width(),
+			$popH=[];
+		
+		for(var i in $popList){
+			if(cookiedata.indexOf($popList[i]+'=done') < 0){
+				$pop = $('#'+$popList[i]);
+				$outerWidth = $pop.outerWidth();
+				$outerHeight = $pop.outerHeight();
+				
+				$left = $left + $prevWidth;
+				if($left+$outerWidth < $conW){
+					$popH.push($outerHeight);
+				}else{
+					$left = 0;
+					$maxH = Math.max.apply(null, $popH);
+					$top = $top + $maxH;
+					$popH = [];
+					$popH.push($outerHeight);
+				}
+				
+				$pop.css({'left':$left,'top':$top});
+				$prevWidth = $outerWidth;
+				
+				if(!$pop.is(':visible') && $pop.data('close') != 'y'){
+					$pop.fadeIn($speed);
+				}
+			};
+		}
+	}
+}
+</script>
+</head>
+<body>
+  <div id="wrap">
+	<aside id="header">
+	</aside>
+	<section id="container">
+		<article id="popMain1" class="pop_main">
+			<h1>팝업 1</h1>
+			<div><img src="http://pizzaheaven.co.kr/resources/images/main/popup/pop_new_open_171218.jpg" width="500" alt=""></div>
+			<p>
+				<label>
+					<input type="checkbox" class="today_chk" id="">
+					오늘하루 그만보기
+				</label>
+				<a href="#" class="pop_close">닫기</a>
+			</p>
+		</article>
+
+		<article id="popMain2" class="pop_main">
+			<h1>팝업 2</h1>
+			<div><img src="http://pizzaheaven.co.kr/resources/images/main/popup/pop_new_open_171218.jpg" width="600" alt=""></div>
+			<p>
+				<label>
+					<input type="checkbox" class="today_chk" id="">
+					오늘하루 그만보기
+				</label>
+				<a href="#" class="pop_close">닫기</a>
+			</p>
+		</article>
+
+		<article id="popMain3" class="pop_main">
+			<h1>팝업 3</h1>
+			<div><img src="http://pizzaheaven.co.kr/resources/images/main/popup/pop_new_open_171218.jpg" width="400" alt=""></div>
+			<p>
+				<label>
+					<input type="checkbox" class="today_chk" id="">
+					오늘하루 그만보기
+				</label>
+				<a href="#" class="pop_close">닫기</a>
+			</p>
+		</article>
+		<article id="popMain4" class="pop_main">
+			<h1>팝업 4</h1>
+			<div><img src="http://pizzaheaven.co.kr/resources/images/main/popup/pop_new_open_171218.jpg" width="400" alt=""></div>
+			<p>
+				<label>
+					<input type="checkbox" class="today_chk" id="">
+					오늘하루 그만보기
+				</label>
+				<a href="#" class="pop_close">닫기</a>
+			</p>
+		</article>
+
+	</section>
+  </div>
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html> 
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css" />
+
+	<!-- 'Nanum Gothic'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" />
+	<!-- 'Noto Sans KR'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/notosanskr.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css" />
+	
+	<!--[if lt IE 9]>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+	<![endif]-->
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.min.js"></script>
+
+<style>
+html,body{height:100%;}
+body{font-family:sans-serif;-webkit-text-size-adjust: none;}
+a{color:inherit;text-decoration:none;}
+/*#wrap:before{content:'';display:block;position:fixed;top:40%;left:0;right:0;height:1px;background:blue;z-index:1;}
+#wrap:after{content:'';display:block;position:fixed;top:60%;left:0;right:0;height:1px;background:red;z-index:1;}*/
+#header{position:fixed;left:0;top:0;right:0;color:#333;text-align:center;font-size:1.25em;padding:10px;line-height:1;z-index:5;background:#fff;}
+.fixed_menu #header{position:fixed;background:#ff5548;}
+#header h1{position:relative;display:inline-block;font-size:1em;margin:0;font-weight:normal;}
+#header h1 a{display:inline-block;padding:5px;background:rgba(255,255,255,0.5);border-radius:10px;}
+#header h1 img{height:20px;vertical-align:top;}
+#header h2{position:absolute;left:50%;top:10px;font-size:1em;margin:0;transform:translate(-50%, 500%);opacity:0;}
+#header .btn_page_prev, #header .btn_menu{display:inline-block;position:absolute;top:50%;transform:translateY(-50%);}
+#header .btn_page_prev{left:10px;}
+#header .btn_menu{right:10px;}
+#header .fa{vertical-align:top;}
+#container{overflow:auto;box-sizing:border-box;padding-top:40px;}
+#contents{position:relative;padding-bottom:100px;}
+#lnbWrap{position:relative;height:39px;z-index:4;}
+#lnb{position:absolute;left:0;top:0;right:0;padding:0 10px;background:#fff;transition:background 0.2s ease;border-bottom:1px solid #aaa;}
+.fixed #lnb{position:fixed;top:40px;background:rgba(255,255,255,0.8);}
+#lnb ul{position:relative;list-style:none;padding:0;margin:0;}
+#lnb li{float:left;width:auto;min-width:60px;}
+#lnb li a{position:relative;display:block;text-align:center;padding:9px 10px;}
+#lnb li.on a{font-weight:bold;}
+#lnb li.on a:after{content:'';display:block;width:100%;height:3px;position:absolute;left:0;bottom:0;background:#ff5548;}
+#footer{text-align:center;font-size:11px;padding:5px 0;color:#999;border-top:1px solid #aaa;background:#eee;z-index:5;}
+
+.cont_in{padding:15px;}
+.menu_sec{position:relative;margin:0 -15px;opacity:0.5;color: #999;padding:1.5em 0;}
+.menu_sec.on{background:#eee;opacity:1;color: #333;}
+.menu_sec h3{text-align:center;text-decoration:underline;margin-top:0;}
+.menu_sec + .menu_sec{margin-top:50px;}
+.menu_sec .pagination{text-align:center;}
+.menu_sec.on .navi{color:#007aff;}
+.menu_sec .navi a{display:block;position:absolute;top:0;height:100%;font-size:2em;width:2em;text-align:center;z-index:1;color:#ff5548;}
+.menu_sec .navi a i{position:absolute;padding:5px 10px;left:50%;top:50%;transform:translate(-50%, -50%);text-align:center;border-radius:100%;background:rgba(255,255,255,0.5);}
+.menu_sec .navi a i:before{vertical-align:middle;}
+.menu_sec .navi .swiper-button-disabled{display:none;}
+.menu_sec .ui-prev{left:0;}
+.menu_sec .ui-next{right:0;}
+.menu_list{}
+.menu_list ul{list-style:none;padding:0;margin:0;}
+.menu_list img{width:100%;}
+.menu_list li{float:left;width:70%;margin:0;padding:0;}
+.menu_list .swiper-slide-prev img,
+.menu_list .swiper-slide-next img{-webkit-filter:grayscale(100%);filter:grayscale(100%);}
+
+.swiper-container-3d .swiper-slide-shadow-left,
+.swiper-container-3d .swiper-slide-shadow-right{background:none;}
+</style>
+</head>
+<body>
+	<article id="wrap">
+		<header id="header">
+			<a href="#" class="btn_page_prev"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+			<h1>홈서비스</h1>
+			<a href="#" class="btn_menu"><i class="fa fa-bars" aria-hidden="true"></i></a>
+		</header>
+		<section id="container">
+			<div id="contents">
+				<div id="lnbWrap" class="fixed">
+					<nav id="lnb" class="swiper-container">
+						<ul class="swiper-wrapper">
+							<li class="on swiper-slide"><a href="#">추천메뉴</a></li>
+							<li class="swiper-slide"><a href="#">세트</a></li>
+							<li class="swiper-slide"><a href="#">햄버거</a></li>
+							<li class="swiper-slide"><a href="#">치킨</a></li>
+							<li class="swiper-slide"><a href="#">디저트</a></li>
+							<li class="swiper-slide"><a href="#">음료</a></li>
+						</ul>
+					</nav>
+				</div>
+				
+				<div class="cont_in">
+					<div class="menu_sec">
+						<h3>추천메뉴</h3>
+						<div class="menu_list swiper-container">
+							<ul class="swiper-wrapper">
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+							</ul>
+							<div class="navi">
+								<a href="#" class="ui-prev"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
+								<a href="#" class="ui-next"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+							</div>
+							<div class="pagination"></div>
+						</div>
+					</div>
+
+					<div class="menu_sec">
+						<h3>세트</h3>
+						<div class="menu_list swiper-container">
+							<ul class="swiper-wrapper">
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+							</ul>
+							<div class="navi">
+								<a href="#" class="ui-prev"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
+								<a href="#" class="ui-next"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+							</div>
+							<div class="pagination"></div>
+						</div>
+					</div>
+
+					<div class="menu_sec">
+						<h3>햄버거</h3>
+						<div class="menu_list swiper-container">
+							<ul class="swiper-wrapper">
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+							</ul>
+							<div class="navi">
+								<a href="#" class="ui-prev"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
+								<a href="#" class="ui-next"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+							</div>
+							<div class="pagination"></div>
+						</div>
+					</div>
+
+					<div class="menu_sec">
+						<h3>치킨</h3>
+						<div class="menu_list swiper-container">
+							<ul class="swiper-wrapper">
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+							</ul>
+							<div class="navi">
+								<a href="#" class="ui-prev"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
+								<a href="#" class="ui-next"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+							</div>
+							<div class="pagination"></div>
+						</div>
+					</div>
+
+					<div class="menu_sec">
+						<h3>디저트</h3>
+						<div class="menu_list swiper-container">
+							<ul class="swiper-wrapper">
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+							</ul>
+							<div class="navi">
+								<a href="#" class="ui-prev"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
+								<a href="#" class="ui-next"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+							</div>
+							<div class="pagination"></div>
+						</div>
+					</div>
+
+					<div class="menu_sec">
+						<h3>음료</h3>
+						<div class="menu_list swiper-container">
+							<ul class="swiper-wrapper">
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+								<li class="swiper-slide"><img src="https://mobilehome.lotteria.com/lotteria/img/product/pk_nhmp_m.png" alt=""></li>
+							</ul>
+							<div class="navi">
+								<a href="#" class="ui-prev"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
+								<a href="#" class="ui-next"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+							</div>
+							<div class="pagination"></div>
+						</div>
+					</div>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+				</div>
+			</div>
+		</section>
+		<footer id="footer">COPYRIGHT © 2016 The lotteria of Korea All rights reserved</footer>
+	</article>
+
+<script>
+var lnbOn = $('#lnb .on').index();
+var	lnbSwiper = new Swiper('#lnb',{			
+		slidesPerView:'auto',
+		initialSlide:lnbOn-1,
+		freeMode: true
+	});
+
+$(function(){
+	$('#lnb li a').click(function(e){
+		e.preventDefault();
+		var idx = $(this).parent().index(),
+			menuTop =$('.menu_sec').eq(idx).offset().top,
+			headH =$('#header').outerHeight(),
+			lnbH =$('#lnb').outerHeight(),
+			top = menuTop-headH-lnbH;
+		//console.log(menuTop,headH,lnbH,top)
+		
+		$('html,body').stop().animate({'scrollTop':top});
+	});
+
+	multiSwiper('.menu_list');
+	scrollOn('.menu_sec','#lnb .swiper-slide',200);
+})
+
+function scrollOn(tar, navi, range){
+	$(window).bind('load scroll resize',function(){
+		var winH = $(window).height(),
+			scrollTop = $(this).scrollTop(),
+			center = scrollTop+(winH/2),
+			start = center-(range/2),
+			end = center+(range/2);
+
+		$(tar).each(function(e){
+			var secH = $(this).outerHeight(),
+				secS = $(this).offset().top,					
+				secE = secS+secH;
+			
+			if(secS <= end && secE >= start){
+				$(this).addClass('on');
+			}else{
+				$(this).removeClass('on');
+			}
+
+			if(center >= secS){
+				$(navi).eq(e).addClass('on').siblings().removeClass('on');
+			}
+		});
+
+		lnbSwiper.slideTo($('#lnb .swiper-slide.on').index());
+	});
+
+	var line = '<div style="position:fixed;left:0;right:0;top:50%;height:'+range+'px;transform:translateY(-'+(range)/2+'px);background:rgba(255,0,0,0.1);"></div>';
+	$('body').append(line)
+}
+
+function multiSwiper(tar){
+	var sliders = [];
+	$(tar).each(function(index, element){
+		var $prev = $(this).find('.ui-prev'),
+			$next = $(this).find('.ui-next'),
+			$pagination = $(this).find('.pagination');
+			
+		$(this).addClass('ui-swipe-s'+index);
+		if($prev.length > 0){
+			$prev.addClass('ui-swipe-r'+index);
+		}
+		if($next.length > 0){
+			$next.addClass('ui-swipe-l'+index);
+		}
+		if($pagination.length > 0){
+			$pagination.addClass('ui-swipe-p'+index);
+		}
+		var slider = new Swiper('.ui-swipe-s'+index, { 
+			effect: 'coverflow',
+			grabCursor: true,
+			centeredSlides: true,
+			slidesPerView: 'auto',
+			coverflow: {
+				rotate: 60,
+				stretch: 0,
+				depth:150,
+				modifier: 1,
+				slideShadows : true
+			},
+			nextButton: '.ui-swipe-l'+index,
+			prevButton: '.ui-swipe-r'+index,
+			pagination: '.ui-swipe-p'+index
+		});
+		sliders.push(slider);
+	});
+}
+</script>
+</body>
+</html>

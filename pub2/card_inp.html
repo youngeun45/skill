@@ -1,0 +1,68 @@
+<!DOCTYPE html> 
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=450">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css" />
+
+	<!-- 'Nanum Gothic'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" />
+	<!-- 'Noto Sans KR'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/notosanskr.css" />
+	
+	<!--[if lt IE 9]>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+	<![endif]-->
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<style>
+body{padding:0;margin:0;}
+.wrap{width:450px;}
+.card{position:relative;display:inline-block;}
+.card .inp{position:absolute;left:120px;bottom:110px;}
+.card .inp input{width:50px;padding:0;margin:0 3px;font-size:18px;border:0 none;background:none;font-weight:bold;color:#fff;}
+.input{padding:10px 5px;text-align:center;}
+.input input{width:80px;}
+</style>
+</head>
+<body>
+	<div class="wrap">
+		<div class="card"><img src="http://cfile26.uf.tistory.com/image/2435DF4356F53CC12D0C87" style="max-width:100%;height:auto" width="450" height="290" filename="캡처11.PNG" filemime="image/jpeg">
+			<span class="inp">
+				<input type="text" readonly>
+				<input type="text" readonly>
+				<input type="password" readonly>
+				<input type="text" readonly>
+			</span>
+		</div>
+		<p class="input">
+			<input type="tel" maxlength="4">
+			<input type="tel" maxlength="4">
+			<input type="password" maxlength="4">
+			<input type="tel" maxlength="4">
+		</p>
+	</div>
+<script>
+$(function(){
+	$('.input input').keyup(function(e){
+		var $this = $(this),
+			$max = this.maxLength;
+		if(this.value.length >= $max){
+			if($(this).next('input').size() > 0){
+				$(this).next('input').focus();
+			}
+			$(this).val($(this).val().substring(0,$max));
+		}
+		var $idx = $this.index(),
+			$val = $this.val();
+		$('.card input').eq($idx).val($val);
+	})
+})
+</script>
+</body>
+</html>

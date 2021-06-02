@@ -1,0 +1,338 @@
+<!DOCTYPE html> 
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css" />
+
+	<!-- 'Nanum Gothic'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" />
+	<!-- 'Noto Sans KR'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/notosanskr.css" />
+	
+	<!--[if lt IE 9]>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+	<![endif]-->
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<style>
+table{width:100%;border-collapse:collapse;table-layout:fixed;}
+a,a:hover,a:focus{text-decoration:none;}
+caption{display:none;}
+
+#wrap{padding:20px;}
+.txtRed{color:#eb1c23;}
+.txtBlack{color:#222222;}
+.txtBlue{color:#213ef4;}
+
+.txtCenter{text-align:center;}
+.txtLeft{text-align:left;}
+.txtRight{text-align:right;}
+
+/* form */
+.input,.textarea{display:inline-block;height:30px;line-height:28px;padding:0px 10px;border:1px solid #d9d9d9;border-radius:0;background:#fff;-webkit-transition-duration:.1s;-moz-transition-duration:.1s;-o-transition-duration:.1s;transition-duration:.1s;vertical-align:middle;box-sizing:border-box;-webkit-appearance:none;-moz-appearance:none;appearance:none;font-size:12px;}
+.input[type="file"]{padding:3px;line-height:24px;font-size:12px;}
+.input.h40{height:40px;line-height:38px;font-size:14px;}
+.select:hover, .input:hover, .textarea:hover,
+.select:focus, .input:focus, .textarea:focus{border-color:#777}
+.select:read-only, .input:read-only, .textarea:read-only,
+.select.readonly, .input.readonly, .textarea.readonly{border-color:#d9d9d9}
+.select:disabled, .input:disabled, .textarea:disabled{background-color:#d9d9d9;}
+.select{display:inline-block;height:30px;line-height:28px;padding:0 10px;border:1px solid #d9d9d9;border-radius:0;vertical-align:middle;box-sizing:border-box;font-size:12px;}
+.select::-ms-expand{display:none;}
+.select.h40{height:40px;line-height:38px;font-size:14px;}
+.textarea{width:100%;height:145px;padding:10px;resize:none;line-height:1.3;box-sizing:border-box;}
+
+.full{width:100%;}
+
+.label{display:inline-block}
+.label .checkbox ,.label .radio{vertical-align:middle;}
+.checkbox, .radio{position:relative;display:inline-block;width:14px;height:14px;vertical-align:middle;}
+.checkbox input, .radio input{opacity:0;position:absolute;left:0;top:0;width:14px;height:14px;margin:0;padding:0;z-index:1;}
+.checkbox input:checked, .radio input:checked, .checkbox input:focus, .radio input:focus{outline:none! important}
+.checkbox i:before, 
+.radio i:before{content:'';display:block;width:14px;height:14px;border:1px solid #d5d9e0;box-shadow:0 1px 2px rgba(0, 0, 0, 0.05);background:#fff;box-sizing:border-box;vertical-align:middle;}
+.radio i:before{border-radius:100%;}
+.checkbox input+i:after, 
+.radio input+i:after{content:'';display:inline-block;position:absolute;}
+.checkbox input+i:after{width:7px;height:3px;top:4px;left:3px;border:2px solid #ddd;border-top:none;border-right:none;-webkit-transform:rotate(-45deg);transform:rotate(-45deg);}
+.radio input+i:after{width:6px;height:6px;top:4px;left:4px;border-radius:100%;background:#ddd;}
+.checkbox input:checked+i:after{border-color:#4b8ec3;}
+.radio input:checked+i:after{background:#4b8ec3;}
+.checkbox input:disabled+i:before, .radio input:disabled+i:before, 
+.checkbox input[disabled]+i:before, .radio input[disabled]+i:before, 
+.checkbox input.disabled+i:before, .radio input.disabled+i:before{background:#f6f6f6;}
+.checkbox input:disabled+i:after, .radio input:disabled+i:after, 
+.checkbox input[disabled]+i:after, .radio input[disabled]+i:after, 
+.checkbox input.disabled+i:after, .radio input.disabled+i:after{/*opacity:0.5;*/}
+.label.hover input + i:before, label.hover input + i:before{border-color:#777}
+.label:hover .checkbox input+i:before, 
+.label:hover .radio input+i:before{border-color:#aaa;}
+.checkbox input:focus+i:before,
+.radio input:focus+i:before{border-color:#777 !important;}
+
+.inputFile{position:relative;padding-right:85px;}
+.inputFile .input{width:100%;vertical-align:middle;height:30px;line-height:30px;}
+.inputFile .btnFile{display:inline-block;position:absolute;right:0;top:0;overflow:hidden;vertical-align:middle;}
+.inputFile .btnFile .button{border-radius:0;width:80px;padding:0;}
+.inputFile .btnFile input{position:absolute;left:0;top:0;width:100%;height:100%;padding:0;margin:0;z-index:2;font-size:10em;line-height:2;cursor:pointer;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";filter:alpha(opacity=0);-moz-opacity:0;-khtml-opacity:0;opacity:0;}
+span.inputFile{display:inline-block;padding-right:0;}
+span.inputFile .input{width:400px;}
+span.inputFile .btnFile{position:relative;}
+
+ /* 버튼 */
+.buttonBox{padding:39px 30px;border:1px solid #e0e5ec;border-top:0 none;text-align:center;background:#fafbfd;}
+.button{display:inline-block;position:relative;height:30px;line-height:28px;padding:0px 15px;border:1px solid #e0e5ec;background:#ffffff;text-align:center;color:#444;vertical-align:middle;font-size:12px;font-weight:bold;border-radius:2px;cursor:pointer;}
+	.button:hover,.button:focus,.button:active{text-decoration:none !important}
+	.button:active{transform:scale(0.95)}
+
+.button.btnRed{background:#eb1c23;border-color:#eb1c23;color:#fff}
+.button.btnGray{background:#838d96;border-color:#838d96;color:#fff}
+.button.btnGray2{background:#f4f4f4;border-color:#b0b0b0;color:#878787;border-radius:3px;}
+.button.btnBlack{background:#1e2225;border-color:#1e2225;color:#fff}
+.button.btnBlue2{background:#e6faff;border-color:#91ccdc;color:#1c637c;border-radius:3px;}
+.button.btnGreen{background:#018249;border-color:#018249;color:#fff}
+
+.button.h22{height:22px;line-height:20px;font-size:11px;font-weight:normal;padding:0 7px;}
+.button.h34{height:34px;line-height:32px;font-size:13px;}
+.button.h40{height:40px;line-height:38px;font-size:16px;}
+.button.h50{height:50px;line-height:48px;font-size:16px;border-radius:3px;}
+
+.button.w70{width:70px;padding:0;}
+.button.w100{width:100px;padding:0;}
+.button.w120{width:120px;padding:0;}
+.button.w140{width:140px;padding:0;}
+.button.w150{width:150px;padding:0;}
+
+/* 테이블 */
+.table{border-bottom:2px solid #222222;}
+.table .link:hover{text-decoration:underline}
+.table th, .table td{line-height:1.2;padding:10px 5px;height:30px;}
+.table thead th{background:#2d3143;border-right:1px solid #424656;color:#ffffff;}
+.table thead tr + tr th{border-top:1px solid #424656;}
+.table thead th:last-child{border-right:0 none;}
+.table.thead2  thead th{padding:5px 3px;height:auto;}
+.table tbody td{border-bottom:1px solid #e4e8ee;text-align:center;}
+.table tfoot td{border-top:2px solid #222;}
+.table .tdYellow{background:#fffed2;}
+.table .even td{background:#fafafb;}
+.table .even .tdYellow{background:#faf9e5;}
+.table .check td,
+.table .check .tdYellow,
+.table.trHover tbody tr:hover td{background:#d5f7ff;}
+.table.trHover tbody tr:hover td{color:#222;font-weight:bold;}
+.table.trHover tbody tr:hover .link{text-decoration:underline;}
+.table.tdLine tbody td{border-right:1px solid #e4e8ee;}
+.table.tdLine td.th{border-right:0 none;color:#222;}
+.table .bgGray td{background:#fafafb;}
+.table .bgGray2 td{background:#f3f3f3;}
+.table .bgYellow td{background:#fffed2;}
+.table.tableLeft{border-top:2px solid #222;}
+.table.tableLeft th, .table.tableLeft td{text-align:left;padding:10px 10px 10px 20px;}
+.table.tableLeft tbody th{border-bottom:1px solid #424656;background:#2d3143;color:#fff;}
+.table .tl{text-align:left !important;padding-left:10px;}
+.table .tr{text-align:right !important;padding-right:10px;}
+.table .full{width:100%;}
+.tableHead .table{border-bottom:0 none;}
+.tableBody{overflow-y:scroll;height:512px;border-bottom:2px solid #222222;}
+.tableBody .table{border-bottom:0 none;}
+</style>
+</head>
+<body>
+	<div id="wrap">
+	<table class="table tdLine">
+		<caption>테이블 제목</caption>
+		<colgroup>
+			<col style="width:45px;" />
+			<col style="width:100px;" />
+			<col />
+			<col style="width:75px;" />
+			<col style="width:85px;" />
+			<col style="width:95px;" />
+			<col style="width:115px;" />
+			<col style="width:115px;" />
+			<col style="width:115px;" />
+			<col style="width:115px;" />
+		</colgroup>
+		<thead>
+			<tr>
+				<th scope="col">NO</th>
+				<th scope="col">타입</th>
+				<th scope="col">항목</th>
+				<th scope="col">부수</th>
+				<th scope="col">페이지수</th>
+				<th scope="col">사이즈</th>
+				<th scope="col">흑백/컬러</th>
+				<th scope="col">상태</th>
+				<th scope="col">위치</th>
+				<th scope="col">옵션추가</th>
+			</tr>		
+		</thead>
+		<tbody>
+			<tr class="tr1">
+				<td>1</td>
+				<td>
+					<select name="" id="" class="select full">
+						<option value="">Print</option>
+					</select>
+				</td>
+				<td><strong><input type="text" name="" id="" class="input full" value=""></strong></td>
+				<td><input type="text" name="" id="" class="input full txtCenter" value="1"></td>
+				<td><input type="text" name="" id="" class="input full txtCenter" value="10"></td>
+				<td>
+					<select name="" id="" class="select full">
+						<option value="">A</option>
+						<option value="">B</option>
+					</select>
+				</td>
+				<td>
+					<select name="" id="" class="select full">
+						<option value="">흑백</option>
+						<option value="">컬러</option>
+					</select>
+				</td>
+				<td>완료</td>
+				<td>
+					<select name="" id="" class="select full">
+						<option value="">선택</option>
+						<option value="">선택</option>
+					</select>
+				</td>
+				<td><a href="#" class="button h22 btnBlue2 btnAddOpt">옵션추가</a></td>
+			</tr>
+			<tr class="bgGray2 tr1">
+				<td colspan="6"></td>
+				<td class="th"><strong>(-)할인금액</strong></td>
+				<td>
+					<input type="text" name="" id="" class="input full txtRight txtBlue bold" value="1,000">
+				</td>
+				<td class="th"><strong>금액(원)</strong></td>
+				<td>
+					<input type="text" name="" id="" class="input full txtRight txtRed bold readonly" value="489,000" readonly="readonly">
+				</td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr class="bgYellow">
+				<td colspan="10" class="tr">총 금액 (금액 - 할인금액) <strong class="txtRed fz16 ml15">451,000 원</strong></td>
+			</tr>
+		</tfoot>
+	</table>
+	<br><br><br>
+	<div>
+		<a href="#" class="button btnGray h50 w150 btnAdd">추가</a>
+	</div>
+</div>
+<script>
+	$(function(){
+		//작업추가		
+		$('.btnAdd').on('click',function(e){
+			e.preventDefault();
+			var lastNO = parseInt($(".table tbody tr:last").attr("class").replace("bgGray2 tr", "")),
+				NO = lastNO + 1;
+
+			var row = '<tr class="tr'+NO+'">';
+				row += '	<td>'+NO+'</td>';
+				row += '	<td>';
+				row += '		<select name="" id="" class="select full">';
+				row += '			<option value="">Print</option>';
+				row += '		</select>';
+				row += '	</td>';
+				row += '	<td><strong><input type="text" name="" id="" class="input full" value=""></strong></td>';
+				row += '	<td><input type="text" name="" id="" class="input full txtCenter" value="1"></td>';
+				row += '	<td><input type="text" name="" id="" class="input full txtCenter" value="10"></td>';
+				row += '	<td>';
+				row += '		<select name="" id="" class="select full">';
+				row += '			<option value="">A4</option>';
+				row += '			<option value="">B4</option>';
+				row += '		</select>';
+				row += '	</td>';
+				row += '	<td>';
+				row += '		<select name="" id="" class="select full">';
+				row += '			<option value="">흑백</option>';
+				row += '		</select>';
+				row += '	</td>';
+				row += '	<td>출력완료</td>';
+				row += '	<td>';
+				row += '		<select name="" id="" class="select full">';
+				row += '			<option value="">선택</option>';
+				row += '			<option value="">선택</option>';
+				row += '		</select>';
+				row += '	</td>';
+				row += '	<td><a href="#" class="button h22 btnBlue2 btnAddOpt">옵션추가</a></td>';
+				row += '</tr>';
+				row += '<tr class="bgGray2 tr'+NO+'">';
+				row += '	<td colspan="6" class="tl"><a href="#" class="button h22 btnBlack btnDel">삭제</a></td>'; 
+				row += '	<td class="th"><strong>(-)할인금액</strong></td>';
+				row += '	<td>';
+				row += '		<input type="text" name="" id="" class="input full txtRight txtBlue bold" value="1,000">';
+				row += '	</td>';
+				row += '	<td class="th"><strong>금액(원)</strong></td>';
+				row += '	<td>';
+				row += '		<input type="text" name="" id="" class="input full txtRight txtRed bold readonly" value="489,000" readonly="readonly">';
+				row += '	</td>';
+				row += '</tr>';
+			$('.table tbody').append(row);
+		})
+
+		//작업삭제		
+		$('.table').on('click','.btnDel',function(e){
+			e.preventDefault();
+			if (confirm("정말 삭제하시겠습니까??") == true){    //확인
+				var cls = $(this).closest('tr').attr("class").replace("bgGray2 ", "");
+				$('.table').find('.'+cls).remove();
+				
+				$('.table .bgGray2').each(function(){
+					var idx = $('.table .bgGray2').index($(this)),
+						num = idx + 1
+						trCls = $(this).attr("class").replace("bgGray2 ", "");
+					//console.log(idx,trCls)
+					$('.table').find('.'+trCls).first().find('td:eq(0)').text(num);
+					$('.table').find('.'+trCls).removeClass(trCls).addClass('tr'+num);
+				})
+			}else{   //취소
+				return;
+			}
+		})
+
+		//옵션추가
+		$('.table').on('click','.btnAddOpt',function(e){
+			e.preventDefault();
+			var cls = $(this).closest('tr').attr("class");
+			var opt = '<tr class="'+cls+'">';
+				opt += ' <td colspan="5"></td>';
+				opt += ' <td class="th"><strong>옵션종류</strong></td>';
+				opt += ' <td>';
+				opt += '  <select name="" id="" class="select full">';
+				opt += '   <option value="">선택</option>';
+				opt += '  </select>';
+				opt += ' </td>';
+				opt += ' <td class="th"><strong>수량</strong></td>';
+				opt += ' <td>';
+				opt += '  <input type="text" name="" id="" class="input full txtRight" value="1">';
+				opt += ' </td>';
+				opt += ' <td><a href="#" class="button h22 btnGray2 btnDelOpt">옵션삭제</a></td>';
+				opt += '</tr>';
+			//$(this).closest('tr').after(opt);
+			$('table').find('.'+cls).last().before(opt);
+		})
+
+		//옵션삭제
+		$('.table').on('click','.btnDelOpt',function(e){
+			e.preventDefault();
+			if (confirm("정말 삭제하시겠습니까??") == true){    //확인
+				$(this).closest('tr').remove();
+			}else{   //취소
+				return;
+			}
+			
+		});
+	})
+</script>
+</body>
+</html>

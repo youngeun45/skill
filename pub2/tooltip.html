@@ -1,0 +1,60 @@
+<!DOCTYPE html> 
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css" />
+
+	<!-- 'Nanum Gothic'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" />
+	<!-- 'Noto Sans KR'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/notosanskr.css" />
+	
+	<!--[if lt IE 9]>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+	<![endif]-->
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<script>
+$( function() {
+    $(document).tooltip({
+      items:".tooltip, .tooltip-img, [data-tooltip-img]",
+	  track:true,
+      content:function() {
+        var element = $( this );
+        if(element.is( "[data-tooltip-img]" ) ) {
+			var img = element.data('tooltip-img'),
+				alt = element.data('tooltip-alt');			
+			return "<img src='"+ img +"' alt='"+alt+"'>";
+        }        
+        if(element.hasClass("tooltip-img")){
+			return element.attr("alt" );
+        }
+		if(element.hasClass("tooltip")){
+			return element.attr("title");
+        }
+      }
+    });
+  });
+</script>
+<style>
+	.box{width:640px;min-height:200px;margin:20px;background:#eee;}
+	.ui-tooltip{font-size:12px;border-width:1px !important;}
+	.ui-tooltip-content img{max-width:100%;}
+</style>
+</head>
+<body>
+	<div class="box tooltip" title="text tooltip text tooltip text tooltip text tooltip text tooltip"></div>
+
+	<div class="box">
+		<img class="tooltip-img" src="http://testmbhc.cntt.co.kr/images/index/banner/img_main_banner_170525_m.jpg" alt="image alt image alt image alt">
+	</div>
+
+	<div class="box" data-tooltip-img="http://testmbhc.cntt.co.kr/images/index/banner/img_main_banner_170525_m.jpg" data-tooltip-alt="alt값"></div>
+</body>
+</html>

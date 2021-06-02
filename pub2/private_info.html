@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>개인정보 텍스트</title>
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+
+	
+</head>
+
+<body>
+	<div class="private_info_txt"></div>
+	<div class="phone_info_txt"></div>
+
+	<script>
+		var infoArr = ['변상우','브라이언','씨엔티테크','미스터피자','본아이에프'];
+		var phoneArr = ['01062857401','01155557777'];
+
+		
+		for( i = 0; i < infoArr.length; i++){
+			$('.private_info_txt').html(infoArr.map(function(value) {
+				return('<p>' + value + '</p>');
+			}).join(""));
+
+			$('.private_info_txt p').each(function(){
+				var text = $(this).html();
+				var first = $('<em>'+text.charAt(0)+'</em>');//맨 앞의 텍스트
+				var last = $('<em>'+text.charAt(text.length-1)+'</em>');//맨 의 텍스트
+				var wordCount = $(this).text().length-2;//전체 텍스트 길이중 맨앞과 맨뒤를 제외한 길이
+				$(this).html(new Array(++wordCount).join('*')).prepend(first).append(last);	
+			});
+		}
+		
+		for( i = 0; i < phoneArr.length; i++){
+			$('.phone_info_txt').html(phoneArr.map(function(value) {
+				return('<p>' + value + '</p>');
+			}).join(""));
+
+			$('.phone_info_txt p').each(function(){
+				var text = $(this).html();
+				var first = $('<em>'+text.charAt(0)+text.charAt(1)+text.charAt(2)+'-'+'</em>');
+				var last = $('<em>'+'-'+text.charAt(text.length-1)+text.charAt(text.length-2)+text.charAt(text.length-3)+text.charAt(text.length-4)+'</em>');
+				var wordCount = $(this).text().length-7;
+				$(this).html(new Array(++wordCount).join('*')).prepend(first).append(last);	
+			});
+		}
+	</script>
+</body>
+	
+</html>

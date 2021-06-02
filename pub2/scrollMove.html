@@ -1,0 +1,247 @@
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<title>scroll</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css" />
+
+	<!-- 'Nanum Gothic'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" />
+	<!-- 'Noto Sans KR'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/notosanskr.css" />
+	
+	<!--[if lt IE 9]>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+	<![endif]-->
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<script>
+$(function(){
+	scrollMove();
+});
+function scrollMove(){
+	var $el = $( '*[data-scroll]' );
+	$el.each(function(){
+		var $this = $(this),
+			$height = $this.outerHeight(),
+			$hCenter = $height/2,
+			$offTop = $this.offset().top,
+			$append = true;
+
+		$this.addClass('scroll-item')
+
+		$(window).on('load scroll',function(){
+			scrollMove();
+		});
+		$(window).on('resize',function(){
+			$this.removeAttr('style');
+
+			$height = $this.outerHeight(),
+			$hCenter = $height/2,
+			$offTop = $this.offset().top;
+
+			scrollMove();
+		});
+
+		function scrollMove(){
+			var $winS = $(window).scrollTop(),
+				$winW = $(window).width(),
+				$winH = $(window).height(),
+				$winC = $winH/2,
+				$scroll =$this.data('scroll'),
+				$speed =$this.data('speed'),						
+				$move = 0;
+			
+			if($speed == undefined){
+				$speed = 5;
+			}else if($speed < 1){
+				$speed = 1;
+			}
+
+			if($offTop-$winH-$winC < $winS && $offTop+$winH-$winC > $winS){
+				switch($scroll){
+					case 'top':
+						$move = (($winS+$winC)-($offTop+$hCenter))/$speed;
+						$this.css({top:$move});
+						//console.log($offTop,$winH,$winC,$winS);
+						break;
+					case 'bottom':
+						$move = -(($winS+$winC)-($offTop+$hCenter))/$speed;
+						//console.log($move);
+						$this.css({top:$move});
+						break;
+					case 'left':
+						$move = Math.min(0, (($winS+($winC-$height))-$offTop)/$speed);
+						//console.log($move);
+						$this.css({left:$move});
+						break;
+					case 'right':
+						$move = Math.max(0, -(($winS+($winC-$height))-$offTop)/$speed);
+						//console.log($move);
+						$this.css({left:$move});
+						break;
+					case 'bg-up':							
+						$move = (($winS+$winC)-($offTop+$hCenter))/($speed*5);
+						//console.log($move);
+						$this.css({backgroundPosition:'50% '+($move+50)+'%'});
+						break;
+					case 'bg-down':
+						$move = -(($winS+$winC)-($offTop+$hCenter))/($speed*2.5);
+						//console.log($move);
+						$this.css({backgroundPosition:'50% '+($move+50)+'%'});
+						break;
+					case 'opacity':
+						$move = Math.min(1, Math.max(0,1-($offTop-($winS+($winC-$height)))/($speed*100)));
+						//console.log($move,($offTop-$winS));
+						$this.css({opacity:$move});
+						break;
+					case 'scale':
+						//console.log(($offTop-$winS) / $offTop)
+						$move = Math.min(1, Math.max(0,1-($offTop-($winS+($winH-$height)/1.3))/($speed*200)));
+						//console.log($move,($offTop-$winS));
+						$this.css({
+							MozTransform:'scale('+$move+')',
+							WebkitTransform:'scale('+$move+')',
+							msTransform:'scale('+$move+')',
+							transform:'scale('+$move+')'
+						});
+						break;
+					case 'show':							
+						if($append){
+							$this.append('<span class="scroll-bg bg-w"></span><span class="scroll-bg bg-h"></span>');
+							$append = false;
+						}
+
+						$this.addClass('scroll-hide');
+						$move = Math.max(0,100-(($winS+$winH)-$offTop)/7)
+						if($offTop <= $winS+$winH){
+							//console.log($move)
+							$this.find('.bg-w').css({width:$move+'%'})
+							$this.find('.bg-h').css({height:$move+'%'})
+						}
+						break;
+					case 'hide':
+						if($append){
+							$this.append('<span class="scroll-bg bg-w"></span><span class="scroll-bg bg-h"></span>');
+							$append = false;
+						}
+						$this.addClass('scroll-show');
+						$move = Math.max(0,(($winS+$winH)-$offTop)/7-100)
+						if($offTop <= $winS+$winH){
+							//console.log($move)
+							$this.find('.bg-w').css({width:$move+'%'})
+							$this.find('.bg-h').css({height:$move+'%'})
+						}
+						break;
+					default: 
+						if($winS+$winC > $offTop){
+							$this.addClass('on');
+							//console.log('on')
+						}else{
+							$this.removeClass('on');
+							//console.log('off')
+						}
+				}
+			}
+		}
+	});
+}
+</script>
+<style type="text/css">
+.space{height:300px;}
+.box{padding:200px 0;text-align:center;background:#eee url(http://cdn.mrpizza.co.kr/2014_resources/images/main/banner/mainImg_160711_1.jpg) no-repeat center center/cover;overflow:hidden;}
+.box span{display:inline-block;}
+.scroll-item{position:relative;border:1px solid #ddd;}
+.scroll-item:before{content:'';position:absolute;left:0;top:50%;background:black;width:100%;height:2px;margin-top:-1px;}
+.box .scroll-item + .scroll-item{margin-left:20px;}
+.scroll-item.on{background:red;}
+.scroll-hide .scroll-bg{display:block;position:absolute;top:0;right:0;width:100%;height:100%;background:#fff;}
+.scroll-show .scroll-bg{display:block;position:absolute;left:0;bottom:0;background:#fff;}
+.scroll-show .bg-w{height:100%;}
+.scroll-show .bg-h{width:100%;}
+.box.bg1{background-size:inherit;background-position:center 50%}
+.box.bg2{background-size:inherit;background-position:center 50%}
+.center{position:fixed;left:0;top:50%;background:red;width:100%;height:2px;margin-top:-1px;z-index:100;}
+</style>
+</head>
+<body>
+	<div class="center"></div>
+	<!-- data-speed 수치가 높을 수록 느린거 -->
+	<div class="space"></div>
+	<div class="space"></div>
+	<div class="box">
+		<span data-scroll="on">
+			<img src="http://cdn.mrpizza.co.kr/2014_resources/images/main/banner/mainTxt_160711_1.png" alt="" />
+		</span>
+	</div>
+	<div class="space"></div>
+	<div class="box">
+		<span data-scroll="top" data-speed="2">
+			<img src="http://cdn.mrpizza.co.kr/2014_resources/images/main/banner/mainTxt_160711_1.png" alt="" />
+		</span>
+	</div>
+	<div class="space"></div>
+	<div class="box">
+		<span data-scroll="bottom" data-speed="4">
+			<img src="http://cdn.mrpizza.co.kr/2014_resources/images/main/banner/mainTxt_160711_1.png" alt="" />
+		</span>
+	</div>
+	<div class="space"></div>
+	<div class="box">
+		<span data-scroll="left" data-speed="1">
+			<img src="http://cdn.mrpizza.co.kr/2014_resources/images/main/banner/mainTxt_160711_1.png" alt="" />
+		</span>
+		<span data-scroll="right" data-speed="1">
+			<img src="http://cdn.mrpizza.co.kr/2014_resources/images/main/banner/mainTxt_160711_1.png" alt="" />
+		</span>
+	</div>	
+	<div class="space"></div>
+	<div class="box">
+		<span data-scroll="opacity">
+			<img src="http://cdn.mrpizza.co.kr/2014_resources/images/main/banner/mainTxt_160711_1.png" alt="" />
+		</span>
+	</div>
+	<div class="space"></div>
+	<div class="box" data-scroll="show">
+		<div>
+			<img src="http://cdn.mrpizza.co.kr/2014_resources/images/main/banner/mainTxt_160711_1.png" alt="" />
+		</div>
+	</div>
+	<div class="box" data-scroll="hide">
+		<div>
+			<img src="http://cdn.mrpizza.co.kr/2014_resources/images/main/banner/mainTxt_160711_1.png" alt="" />
+		</div>
+	</div>
+	<div class="space"></div>
+	<div class="box" data-scroll="scale">
+		<div>
+			<img src="http://cdn.mrpizza.co.kr/2014_resources/images/main/banner/mainTxt_160711_1.png" alt="" />
+		</div>
+	</div>
+	<div class="space"></div>
+	<div class="box">
+		<div>
+			<img data-scroll="scale" src="http://cdn.mrpizza.co.kr/2014_resources/images/main/banner/mainTxt_160711_1.png" alt="" />
+		</div>
+	</div>
+	<div class="space"></div>
+	<div class="box bg1" data-scroll="bg-up" data-speed="2">
+		<div>
+			<img src="http://cdn.mrpizza.co.kr/2014_resources/images/main/banner/mainTxt_160711_1.png" alt="" />
+		</div>
+	</div>
+	<div class="space"></div>
+	<div class="box bg2" data-scroll="bg-down" data-speed="4">
+		<div>
+			<img src="http://cdn.mrpizza.co.kr/2014_resources/images/main/banner/mainTxt_160711_1.png" alt="" />
+		</div>
+	</div>
+	<div class="space"></div>
+	<div class="space"></div>
+</body>
+</html>

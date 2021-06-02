@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<!-- 'Nanum Gothic'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" />
+	<!-- 'Noto Sans KR'-->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/notosanskr.css" />
+	
+	<!--[if lt IE 9]>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+	<![endif]-->
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<style>
+.wrap{margin:15px;}
+.wrap:after{content:'';display:block;clear:both;}
+.box{display:block;width:100px;height:100px;line-height:100px;float:left;background:#eee;text-align:center;color:inherit;text-decoration:none;}
+.red{ background-color: red;}
+.green{ background-color: green;}
+.blue{ background-color: blue;}
+.black{ background-color: black;}
+.orange{ background-color: orange;}
+</style>
+</head>
+<body>
+<div id="array" class="wrap">
+	<div class="box"></div>
+	<div class="box"></div>
+	<div class="box"></div>
+	<div class="box"></div>
+	<div class="box"></div>
+	<div class="box"></div>
+	<div class="box"></div>
+</div>
+<br><br>
+<div id="click" class="wrap">
+	<a href="#" class="box">click</a>
+</div>
+
+<div id="click2" class="wrap">
+	<a href="#" class="box green">click</a>
+</div>
+<script>
+arrAddClass('#array .box',["red","green","blue"]);
+
+function arrAddClass(tar,arr){		
+	if($.isArray(arr) ==  true){
+		$(tar).each(function(index, element) {
+			$(element).addClass(arr[index%arr.length]);
+		});	
+	}else{
+		console.log(tar+"'s class is not an array!")
+		$(tar).addClass(arr);
+	}
+}
+
+$('#click .box').click(function(e){
+	e.preventDefault();
+	arrToggleClass(this,["red","green","blue","black"])
+});
+
+$('#click2 .box').click(function(e){
+	e.preventDefault();
+	arrToggleClass(this,["red","green","blue","black","orange"])
+});
+
+function arrToggleClass(tar,arr){
+	var $this = $(tar),
+		$max = arr.length - 1;
+	
+	for(var i in arr){
+		if($this.hasClass(arr[i])){
+			i = parseInt(i);
+			if(i == $max){
+				//console.log('end')
+				$this.removeClass(arr[$max]);
+				return false;
+			}else{
+				var j = i+1;
+				//console.log('next',i);
+				$this.removeClass(arr[i]).addClass(arr[i+1]);
+				return false;
+			}
+		}
+	}
+	//console.log('first')
+	$this.addClass(arr[0]);
+}
+
+</script>
+</body>
+</html>
