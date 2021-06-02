@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<title>focusWithin</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+<style>
+.wrap ul {padding: 10px;max-width: 500px; margin: 0 auto;background: #f1f1f1;}
+.wrap ul li {padding-top: 10px;margin-bottom: 10px;list-style:none;transition:0.3s all;position:relative;overflow: hidden;}
+.wrap ul li input {width: 100%;box-sizing:border-box;border:none; background: #fff;display: block;height:30px}
+.wrap ul li input:focus {border: none;outline:none}
+.wrap ul li:after {content:"";display: block;width: 100%; height:1px; background: #000;position:absolute;bottom:0;left:-100%;transition:all 0.3s}
+.wrap ul li:focus-within {letter-spacing:3px;}
+.wrap ul li:focus-within input {border-bottom:1px solid #f0f0f0;}
+.wrap ul li:focus-within:after {left:0}
+</style>
+
+<body>
+<div class="wrap">
+	<ul>
+		<li><p>* name</p><input type="text"></li>
+		<li><p>* phone</p><input type="text"></li>
+		<li><p>* e-mail</p><input type="text"></li>
+		<li><p>* address</p><input type="text"></li>
+	</ul>
+</div>
+
+</body>
+</html>
+
+
+

@@ -1,0 +1,75 @@
+
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+<title> prototype about roulette </title>
+<meta charset="utf-8">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
+<script type="text/javascript" src="js/jQueryRotateCompressed.js"></script>
+<style>
+#image{
+ z-index:10;
+ width: 400px;
+}
+#n_id{position:absolute;left:196px;top:4px;z-index:20;}
+</style>
+</head>
+<body>
+<img src="images/rollet_img.png" id="image">
+<img src="http://serpiko.dothome.co.kr/javascript/jquery/jqueryrotate/img/niddle.png" id="n_id">
+<br />
+<input type='button' value='시작' id='start_btn'></input>
+<div id="result_id"></div>
+<div id="result_id2"></div>
+<div id="result_id3"></div>
+<script>
+window.onload = function(){
+	
+	var pArr = ["아몬드","던킨","문화상품권","미니언즈","초코에몽","베스킨","bhc","팔도"];
+
+	$('#start_btn').click(function(){
+		rotation();
+	});
+
+	function rotation(){
+		$("#image").rotate({
+		  angle:0, 
+		  animateTo:360 * 1 + randomize(0, 360),
+		  center: ["50%", "50%"],
+		  easing: $.easing.easeInOutElastic,
+		  callback: function(){ 
+						var n = $(this).getRotateAngle();
+						endAnimate(n);
+					},
+		  duration:1000
+	   });
+	}
+
+	function endAnimate($n){
+		var n = $n;
+		$('#result_id').html("<p>움직인각도:" + n + "</p>");
+		var real_angle = n%360 +14.4;
+		var part = Math.floor(real_angle/45);
+	
+		$('#result_id2').html("<p>상품범위:" + part + "</p>");
+
+		if(part < 1){
+			$('#result_id3').html("<p>당첨내역:" + pArr[0] + "</p>");
+			return;
+		}
+
+		if(part >= 8){
+			$('#result_id3').html("<p>당첨내역:" + pArr[pArr.length-1] + "</p>");
+			return;
+		}
+
+		$('#result_id3').html("<p>당첨내역:" + pArr[part] + "</p>");
+	}
+
+	function randomize($min, $max){
+		return Math.floor(Math.random() * ($max - $min + 1)) + $min;
+	}
+};
+</script>
+</body>
+</html>

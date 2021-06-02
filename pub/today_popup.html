@@ -1,0 +1,152 @@
+
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<title>투데이팝업</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR" rel="stylesheet">
+	<link rel="stylesheet" href="css/common.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+</head>
+<script type="text/javascript">
+cookiedata = document.cookie;
+function setCookie(name, value, expiredays ){
+	var todayDate = new Date(); 
+		todayDate.setDate(todayDate.getDate() + expiredays);
+		document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";";
+	console.log(todayDate.toGMTString())
+}
+$(function(){
+	todayPop();
+})
+function todayPop(){
+	var $speed = 500;
+	var popList = [];
+	if ($('.pop_today').length > 0) {
+		$('.pop_today').each(function() {
+			var $id = $(this).attr('id');
+			popList.push($id);
+		});
+	}
+	$('.pop_today .btn_close').click(function(e) {
+		e.preventDefault();
+		var chk = $(this).closest('.pop_today').find('.todayChk'), 
+			$id = $(this).closest('.pop_today').attr('id');
+
+		if (chk.is(':checked')) {
+			setCookie($id, 'done',1);
+		}
+		popClose($('#' + $id))
+	});
+	for (var i in popList) {
+		var $tar = $('#' + popList[i]);
+		if (cookiedata.indexOf(popList[i] + '=done') < 0) {
+			popOpen($tar);
+		}else{
+			popClose($tar)
+		}
+	}
+	console.log(cookiedata)
+}
+//팝업
+var $popSpeed = 300,
+	$popEase = 'easeOutQuart',
+	$popOpenBtn = '';
+var popupUI = function(){
+	$('.pop_open').on('click',function(e) {
+		e.preventDefault();
+		var $pop = $(this).attr('href');
+		popOpen($pop,this);
+	});
+	$('.pop_close').on('click',function(e) {
+		e.preventDefault();
+		var $pop = $(this).closest('.pop_bg');
+		popClose($pop);
+	});
+	
+	$('.pop_bg').on('click',function(){
+		var $pop = $(this);
+		if(!$pop.hasClass('close_none')){popClose($pop);}
+	}).on('click','.pop_wrap',function(e) {
+		e.stopPropagation();
+	});
+
+	$(window).on('load',function(){
+		$('.pop_open').each(function(){
+			if($(this).hasClass('pop_load')){
+				$(this).trigger('click');
+			}
+		});
+	});
+};
+var popOpen = function(tar,btn){
+	var $visible = $('.pop_bg:visible').size();
+
+	if(btn != null || btn != window)$popOpenBtn = $(btn);
+	if($visible > 0){
+		$(tar).css('z-index','+='+$visible);
+	}else{
+		$('body').addClass('hidden');	
+	}	
+	$(tar).fadeIn($popSpeed,function(){
+		if(btn != null)$(this).attr({'tabindex':0}).focus();
+	});
+	popPositin(tar,$popSpeed);
+	$(window).on('resizeEnd',function(){
+		popPositin(tar,$popSpeed);
+	});
+};
+var popClose = function(tar){
+	var $visible = $('.pop_bg:visible').size();
+	if($visible == 1){
+		$('body').removeClass('hidden');
+	}
+	$(tar).find('.pop_wrap').animate({'margin-top':0},$popSpeed,function(){
+		$(this).removeAttr('style');
+	});
+	$(tar).fadeOut($popSpeed,function(){
+		$(tar).removeAttr('style tabindex');
+		if($popOpenBtn != ''){
+			if($popOpenBtn != window){				
+				$popOpenBtn.focus();
+			}
+			$popOpenBtn = '';
+		}
+	});
+};
+var popPositin = function(tar,speed){
+	var $wrapH = $(tar).height(),
+		$pop = $(tar).find('.pop_wrap'),
+		$popH = $pop.outerHeight(),
+		$mT = Math.max(0,($wrapH-$popH)/2);
+
+	if(speed > 100){
+		$pop.stop().animate({'margin-top':$mT},speed);
+	}else{
+		$pop.css({'margin-top':$mT});
+	}
+};
+</script>
+<body>
+<div id="popTodayBanner15" class="pop_bg pop_today">
+	<article class="pop_wrap">
+		<div class="img_area"><a href="#"><img src="images/@img_pop.jpg" alt="팝업 내용"></a></div>
+		<div class="pop_foot">
+			<label class="checkbox">
+				<input type="checkbox" class="todayChk" name="checkbox" id="">
+				<span class="lbl">오늘하루 그만보기</span>
+			</label>
+			<a href="#" class="btn_close pop_close">닫기</a>
+		</div>
+	</article>
+</div>
+</body>
+</html>
+
+
+
+
+

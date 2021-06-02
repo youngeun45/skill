@@ -1,0 +1,65 @@
+
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<title>에이작스</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	<!--[if lt IE 9]>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+	<![endif]-->
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.2/masonry.pkgd.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.2/js/bootstrap.min.js"></script>
+</head>
+<style>
+.list dt {font-weight: bold;}
+.list li div {display: inline-block;}
+.list li .dt {width: 100px; padding-right: 10px;}
+</style>
+<body>
+<ul class="grid_list"></ul>
+<script>
+$(function(){	
+	$.ajax({ 
+		type: 'GET', 
+		url: 'data01.json', 
+		dataType:'json',
+		success: function (data) { 
+			var list = data,
+				listLen = list.length,
+				contentStr = '';
+			//console.log(listLen)
+			for(var i=0; i<listLen; i++){
+				contentStr += '<li class="grid-item">';
+				contentStr += '	<div class="box">';
+				contentStr += '		<ul class="list">';
+				contentStr += '			<li>';
+				contentStr += '				<div class="dt">타입</div>';
+				contentStr += '				<div class="dd">'+ list[i].type+'</div>';
+				contentStr += '			</li>';
+				contentStr += '			<li>';
+				contentStr += '				<div class="dt">사이트주소</div>';
+				contentStr += '				<div class="dd">'+ list[i].site+'</div>';
+				contentStr += '			</li>';
+				contentStr += '			<li>';
+				contentStr += '				<div class="dt">날짜</div>';
+				contentStr += '				<div class="dd">'+ list[i].date+'</div>';
+				contentStr += '			</li>';
+				contentStr += '			<li>';
+				contentStr += '				<div class="dt">자격요건</div>';
+				contentStr += '				<div class="dd">'+ list[i].title+'</div>';
+				contentStr += '			</li>';
+				contentStr += '		</ul>';
+				contentStr += '	</div>';
+			}
+
+			$('.grid_list').append(contentStr);
+			//gridUI();
+		}
+	});
+});
+</script>
+</body>
+</html>

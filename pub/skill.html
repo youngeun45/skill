@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>영은스킬모음집</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.min.js"></script>
+    <script src="http://www.istarbucks.co.kr/common/js/snowfall.jquery.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=006f20701be2bb7b82590b9a9c86d1de"></script>
+    <script src="js/ui.js"></script>
+    <link rel="stylesheet" href="css/lib/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/lib/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/common.css">
+	<!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
+</head>
+<body class="main left_gnb">
+<header>
+<h1><a href="/">YOUNGEUN</a></h1>
+<nav id="gnb">
+    <div class="inner">
+        <h2 class="sticky_logo"><a href="/">YOUNGEUN</a></h2>
+		<button class="btn_gnb"><i></i><span>모바일 gnb열기</span></button>
+        <ul class="main_gnb">
+            <li><a href="#" class="gnb_1depth">메뉴1</a>
+                 <div class="gnb_depth2">
+                    <ul class="sub">
+                        <li><a href="#">sub01</a></li>
+                        <li><a href="#">sub02</a></li>
+                        <li><a href="#">sub03</a></li>
+                        <li><a href="#">sub04</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><a href="#" class="gnb_1depth">메뉴2</a>
+                 <div class="gnb_depth2">
+                    <ul class="sub">
+                         <li><a href="#">sub01</a></li>
+                        <li><a href="#">sub02</a></li>
+                        <li><a href="#">sub03</a></li>
+                        <li><a href="#">sub04</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><a href="#" class="gnb_1depth">메뉴3</a>
+                  <div class="gnb_depth2">
+                    <ul class="sub">
+                       <li><a href="#">sub01</a></li>
+                        <li><a href="#">sub02</a></li>
+                        <li><a href="#">sub03</a></li>
+                        <li><a href="#">sub04</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><a href="#" class="gnb_1depth">메뉴4</a>
+                 <div class="gnb_depth2">
+                    <ul class="sub">
+                        <li><a href="#">sub01</a></li>
+                        <li><a href="#">sub02</a></li>
+                        <li><a href="#">sub03</a></li>
+                        <li><a href="#">sub04</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><a href="#" class="gnb_1depth">메뉴5</a>
+                 <div class="gnb_depth2">
+                    <ul class="sub">
+                        <li><a href="#">sub01</a></li>
+                        <li><a href="#">sub02</a></li>
+                        <li><a href="#">sub03</a></li>
+                        <li><a href="#">sub04</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+        <div class="quick">
+            <ul>
+                <li>퀵메뉴입니다</li>
+                <li>퀵메뉴입니다</li>
+                <li>퀵메뉴입니다</li>
+            </ul>
+        </div>
+    </div>
+</nav>
+</header>
+<div class="container">
+	<div id="popTodayBanner5" class="pop_bg pop_today">
+		<article class="pop_wrap">
+			<div class="img_area"><a href="#"><img src="images/@img_pop.jpg" alt="팝업 내용"></a></div>
+			<div class="pop_foot">
+				<label class="checkbox">
+					<input type="checkbox" class="todayChk" name="checkbox" id="">
+					<span class="lbl">오늘하루 그만보기</span>
+				</label>
+				<a href="#" class="btn_close pop_close">닫기</a>
+			</div>
+		</article>
+	</div>
+    <div id="popMain1" class="pop_bg">
+        <article class="pop_wrap">
+            <div class="pop_head">
+                <h2>팝업 2</h2>
+            </div>
+            <div class="pop_cont">
+                <img src="http://pizzaheaven.co.kr/resources/images/main/popup/pop_new_open_171218.jpg" width="500" alt="">
+            </div>
+            <div class="pop_foot">
+                <a href="#" class="pop_close">닫기</a>
+            </div>
+        </article>
+    </div>
+    <div id="popMain2" class="pop_bg">
+        <article class="pop_wrap">
+            <div class="pop_head">
+                <h2>팝업 3</h2>
+            </div>
+            <div class="pop_cont">
+                <img src="http://pizzaheaven.co.kr/resources/images/main/popup/pop_new_open_171218.jpg" width="500" alt="">
+            </div>
+            <div class="pop_foot">
+                <a href="#" class="pop_close">닫기</a>
+            </div>
+        </article>
+    </div>
+    <div class="slide_area">
+        <div class="owl-carousel">
+            <div class="item banner01">banner01</div>
+            <div class="item banner02">banner02</div>
+            <div class="item banner03">banner03</div>
+            <div class="item banner04">banner04</div>
+            <div class="item banner05">banner05</div>
+            <div class="item banner06">banner06</div>
+            <div class="item banner07">banner07</div>
+            <div class="item banner08">banner08</div>
+        </div>
+    </div>
+    <section class="menu1">
+        <div class="inner">
+            <div class="flex-container">
+              <div>F</div>
+              <div>L</div>
+              <div>E</div>  
+              <div>X</div>
+              <div>F</div>
+              <div>L</div>  
+              <div>E</div>
+              <div>X</div>
+            </div>
+        </div>
+    </section>
+    <section class="menu2">
+        <div class="inner">
+            <div class="join_people">
+                <ul>
+                    <li>
+                        <p class="join_people_detail" >
+                            <em>
+                                <img src="images/img_thumb_ny1.jpg" alt="Bill Clinton" />
+                                <strong>Bill Clinton</strong>
+                            </em>
+                        </p>
+                        <span><a href="#"><img src="images/img_thumb_ny1.jpg" alt="Bill Clinton" /></a></span>
+                        <span><a href="#"><img src="images/img_thumb_ny2.jpg" alt="Gina Gershon" /></a></span>
+                        <span><a href="#"><img src="images/img_thumb_ny3.jpg" alt="Eli Manning" /></a></span>
+                        <span><a href="#"><img src="images/img_thumb_ny4.jpg" alt="Karolina Kurkova" /></a></span>
+                        <span><a href="#"><img src="images/img_thumb_ny5.jpg" alt="Jake Gyllenhaal" /></a></span>
+                        <span class="bottom_thumb"><a href="#"><img src="images/img_thumb_ny6.jpg" alt="Bridget Moynahan" /></a></span>
+                        <span class="bottom_thumb"><a href="#"><img src="images/img_thumb_ny7.jpg" alt="Allan Houston" /></a></span>
+                        <span class="bottom_thumb"><a href="#"><img src="images/img_thumb_ny8.jpg" alt="Henrik Lundqvist" /></a></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <section class="menu3">content3</section>
+    <section class="menu4">content4</section>
+    <section class="menu5">
+        <div class="inner">
+            <strong>checkbox</strong> 
+            <p class="mt10">
+                <label class="checkbox">
+                    <input name="checkbox" type="checkbox" checked="checked">
+                    <span class="lbl">
+                        체크박스1
+                    </span>
+                </label>
+                <label class="checkbox">
+                    <input name="checkbox" type="checkbox">
+                    <span class="lbl">
+                        체크박스2
+                    </span>
+                </label>
+            </p>
+            <br>
+            <strong>radio</strong>
+            <p class="mt10">
+                <label class="radio">
+                    <input name="radio" type="radio" checked="checked">
+                    <span class="lbl">
+                        라디오1
+                    </span>
+                </label>
+                <label class="radio">
+                    <input name="radio" type="radio">
+                    <span class="lbl">
+                        라디오2
+                    </span>
+                </label>
+            </p>
+            <br>
+            <strong>switch</strong>
+            <p class="mt10">
+                <label class="switch">
+                    <input type="checkbox" name="" id="">
+                    <span></span>
+                </label>
+            </p>
+            <br>
+            <strong>팝업띄우기</strong>
+            <p class="mt10">
+                <a href="#popMain1" class="button pop_open">팝업띄우기</a>
+                <a href="#popMain2" class="button pop_open">팝업띄우기</a>
+            </p>
+			<strong>버튼</strong>
+			<p><button class="button2">상담신청</button></p>
+        </div>
+    </section>
+    <section class="menu6">
+        <div class="inner">
+            <div class="bg"></div>
+        </div>
+    </section>
+	<section class="menu7">
+        <div class="inner">
+           <div id="progressbar"></div>
+        </div>
+    </section>
+	<section class="menu8">
+        <div class="inner">
+          <p class="no_calc calc">no calc</p>
+          <p class="calc">calc</p>
+        </div>
+    </section>
+	<section class="menu9">
+		<div class="inner">
+			<div id="map" style="width:500px;height:400px;"></div>
+		</div>
+	</section>
+	<section class="menu10">
+		<div class="inner">
+			<button class="button btn_black">button</button><br/><br/><br/>
+			<ul class="count_list">
+				<li>여기다</li>
+				<li>여기다</li>
+				<li>여기다</li>
+				<li>여기다</li>
+			</ul>
+		</div>
+	</section>
+</div>
+<script>
+	$(function(){
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+			mapOption = { 
+				center: new daum.maps.LatLng(37.533229, 126.95101), // 지도의 중심좌표
+				level: 3 // 지도의 확대 레벨
+			};
+		var map = new daum.maps.Map(mapContainer, mapOption);
+
+		// 마커가 표시될 위치입니다 
+		var markerPosition  = new daum.maps.LatLng(37.533229, 126.95101); 
+
+		// 마커를 생성합니다
+		var marker = new daum.maps.Marker({
+			position: markerPosition
+		});
+
+		// 마커가 지도 위에 표시되도록 설정합니다
+		marker.setMap(map);
+
+		var iwContent = '<div style="padding:5px;text-align:center;width:150px;">에어로사이드</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+			iwPosition = new daum.maps.LatLng(37.533229, 126.95101); //인포윈도우 표시 위치입니다
+
+		// 인포윈도우를 생성합니다
+		var infowindow = new daum.maps.InfoWindow({
+			position : iwPosition, 
+			content : iwContent 
+		});
+
+		// 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
+		infowindow.open(map, marker); 
+	})
+	</script>
+</body>
+</html>

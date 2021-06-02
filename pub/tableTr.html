@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>테이블 행 스크립트</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <style>
+    * {margin: 0;padding: 0; box-sizing: border-box;}
+    table{width:100%;border-spacing:0px;table-layout:fixed;border-collapse: collapse;}
+    .table th,.table td {border: 1px solid #ccc;text-align: center;padding:10px 0;}
+    .table th {background: #666;color: #fff;}
+    .table tr.trCheck th,.table tr.trCheck td {background: #f1f1f1;}
+    .btn_wrap {margin-top: 10px;text-align: right;}
+    .btn_wrap button {width: 100px; line-height: 1.6;;}
+    </style>
+</head>
+<script>
+    $(function(){
+        var tbl = $('.table'),
+            trAdd = $('#trAdd'),
+            trDel = $('#trDel');
+        
+        //행 칼라 변화
+        $('body').on('click','.checkbox',function(){
+            if(!$(this).prop('checked')){
+                $(this).parents('tr').removeClass('trCheck');
+                console.log(4545)
+            }else {
+                $(this).parents('tr').addClass('trCheck');
+                console.log(1)
+            }
+        })
+        //행 추가
+        trAdd.click(function(){
+            tbl.find('tbody').append('<tr><td><input type="checkbox" name="ch" id="check" class="checkbox"></td><td>내용1</td><td>내용2</td><td>내용3</td></tr>')
+        })
+        //행 삭제
+        trDel.click(function(){
+            var chbox = tbl.find('.checkbox');
+            chbox.each(function(){
+                if($(this).is(':checked')){$(this).parents('tr').remove();}
+            })
+        })
+    })
+</script>
+<body>
+   <table class="table">
+    <colgroup>
+        <col style="width:10%;">
+        <col>
+        <col>
+        <col>
+    </colgroup>
+       <thead>
+           <tr>
+               <th></th>
+               <th>제목1</th>
+               <th>제목2</th>
+               <th>제목3</th>
+           </tr>
+       </thead>
+       <tbody>
+           <tr>
+               <td><input type="checkbox" name="ch" id="check1" class="checkbox"></td>
+               <td>내용1</td>
+               <td>내용2</td>
+               <td>내용3</td>
+           </tr>
+           <tr>
+                <td><input type="checkbox" name="ch" id="check2" class="checkbox"></td>
+                <td>내용1</td>
+                <td>내용2</td>
+                <td>내용3</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" name="ch" id="check3" class="checkbox"></td>
+                <td>내용1</td>
+                <td>내용2</td>
+                <td>내용3</td>
+            </tr> 
+       </tbody>
+   </table>
+   <div class="btn_wrap">
+       <button id="trAdd">행추가</button>
+       <button id="trDel">행삭제</button>
+   </div>
+</body>
+
+</html>
+
+
